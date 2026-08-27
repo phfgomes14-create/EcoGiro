@@ -125,6 +125,11 @@ button {
     color: #75827d;
 }
 
+.logo-img {
+    width: 80px;
+    height: 80px;
+}
+
 .logo-icon {
     width: 43px;
     height: 43px;
@@ -457,39 +462,11 @@ button {
     justify-content: space-around;
 }
 
-.hero-bike,
-.hero-ebike,
-.hero-scooter,
-.hero-moto {
-    filter: drop-shadow(0 7px 4px rgba(0, 0, 0, 0.15));
+.hero-vehicle {
+    width: 200%;
+    height: auto;
 
-    font-size: 80px;
-}
-
-.hero-ebike {
-    font-size: 75px;
-}
-
-.hero-scooter {
-    font-size: 62px;
-}
-
-.hero-moto {
-    font-size: 90px;
-}
-
-.grass {
-    position: absolute;
-
-    bottom: 0;
-    left: 0;
-
-    width: 100%;
-    height: 30px;
-
-    background: #4caa5d;
-
-    border-radius: 50% 50% 0 0;
+    border-radius: 10px;
 }
 
 
@@ -1381,6 +1358,11 @@ button {
 
 .footer-logo small {
     color: #aac5be;
+}
+
+.logo-img-footer {
+    width: 90px;
+    height: 90px;
 }
 
 .footer-column {
