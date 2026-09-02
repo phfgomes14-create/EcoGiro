@@ -1,0 +1,264 @@
+:root {
+    --green: #2da44f;
+    --dark-green: #16863d;
+    --light-green: #eaf8ed;
+
+    --blue: #0c9bc9;
+    --light-blue: #eaf8fc;
+
+    --dark: #132b3b;
+    --text: #263743;
+    --gray: #65747e;
+    --light-gray: #f5f8f7;
+
+    --white: #ffffff;
+    --border: #e3ece7;
+
+    --shadow: 0 8px 30px rgba(25, 70, 50, 0.08);
+
+    --radius: 12px;
+}
+
+
+*{ 
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: var(--white);
+}
+
+
+/* ============================================
+   MOBILE (BASE) - de 0px até 767px
+   ============================================ */
+
+.btn-default{
+    background-color: var(--green);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.hero {
+    width: 100%;
+    height: auto;
+    min-height: 60vh;
+    background-image: 
+    linear-gradient(to top, #fff 0%, rgba(255,255,255,0) 25%),
+    linear-gradient(to right, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 70%),
+    url('../img/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 40px 5%;
+}
+
+.hero-content{
+    max-width: 100%;
+}
+
+.hero-tag{
+    display: block;
+    font-family: 'Courier New', monospace;
+    color: #1f7638;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.hero-title{
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--dark);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.hero-title-highlight {
+    color: var(--green);
+}
+
+.hero-description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    max-width: 100%;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.hero-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.hero-buttons .btn-default,
+.hero-buttons .btn-dark,
+.hero-buttons .btn-outline{
+    width: 100%;
+
+
+}
+
+
+/* ============================================
+   TABLET - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    .hero{
+        min-height: 70vh;
+        padding: 60px 6%;
+    }
+
+    .hero-content{
+        max-width: 480px;
+    }
+
+    .hero-tag{
+        font-size: 13px;
+    }
+
+    .hero-title{
+        font-size: 44px;
+    }
+
+    .hero-description{
+        font-size: 15px;
+        max-width: 450px;
+    }
+
+    .hero-buttons{
+        flex-direction: row;
+    }
+
+    .hero-buttons .btn-default,
+    .hero-buttons .btn-dark,
+    .hero-buttons .btn-outline{
+        width: auto;
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    .btn-default{
+        padding: 10px 20px;
+        font-size: 22px;
+        gap: 16px;
+    }
+
+    .hero {
+        height: calc(100vh - 160px); /* ajuste conforme a altura real do seu header */
+        min-height: unset;
+        padding: 0 8%;
+    }
+
+    .hero-content{
+        max-width: 500px;
+    }
+
+    .hero-tag{
+        font-size: 14px;
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+    }
+
+    .hero-title{
+        font-size: 64px;
+        margin-bottom: 24px;
+    }
+
+    .hero-description{
+        font-size: 16px;
+        max-width: 450px;
+        margin-bottom: 32px;
+    }
+}
+
+#mobile_btn{
+    display: none;
+}
+
+#mobile_menu{
+    display: none;
+
+}
+
+@media screen and (max-width: 1170px){
+    #navbar .btn-default{
+        display: none;
+    }
+    .nav_list{
+        display: none !important;
+    }
+
+    #mobile_btn{
+        display: block;
+        border: none;
+        background-color: transparent;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
+    #mobile_menu{
+        display: none;
+        width: 100%;
+        flex-basis: 100%;
+        order: 10;
+    }
+
+    #mobile_menu .btn-default{
+        display: flex;
+    }
+
+    #mobile_menu.active{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .mobile_nav_list{
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 12px 0px;
+        list-style: none;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .mobile_nav_list li a{
+        text-decoration: none;
+        color: var(--dark);
+        text-align: center;
+        width: 100%;
+    }
+}
