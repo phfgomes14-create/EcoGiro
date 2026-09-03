@@ -1,0 +1,150 @@
+/* ============================================
+   MOBILE (BASE) - de 0px até 767px
+   ============================================ */
+
+header{
+    width: 100%;
+    padding: 16px 5%;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 8px auto;
+    margin-bottom: 0;
+}
+
+#navbar{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.logo{
+    gap: 6px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-text{
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    line-height: 1;
+    font-weight: 600;
+    font-style: bold;
+    color: var(--green);
+}
+
+.logo-text span{
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    margin: 0;
+    line-height: 1;
+    font-style: bold;
+}
+
+.logo-img{
+    width: 48px;
+    height: auto;
+}
+
+.nav_list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    list-style: none;
+    width: 100%;
+}
+
+.nav_list li a{
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.nav_list li.active a{
+    color: var(--green);
+}
+
+/* botao "Alugar Agora" no header ocupa a largura toda no mobile */
+#navbar .btn-default{
+    width: 100%;
+    justify-content: center;
+}
+
+
+/* ============================================
+   TABLET - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    #navbar{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .logo{
+        font-size: 24px;
+    }
+
+    .logo-img{
+        width: 64px;
+    }
+
+    .nav_list{
+        flex-direction: row;
+        align-items: center;
+        gap: 28px;
+        width: auto;
+    }
+
+    .nav_list li a{
+        font-size: 18px;
+    }
+
+    #navbar .btn-default{
+        width: auto;
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    header{
+        padding: 28px 8%;
+        margin: 16px auto;
+        margin-bottom: 0;
+    }
+
+    .logo{
+        gap: 0px;
+        font-size: 28px;
+    }
+
+    .logo-img{
+        width: 80px;
+    }
+
+    .nav_list{
+        gap: 48px;
+    }
+
+    .nav_list li a{
+        font-size: 20px;
+    }
+}
+

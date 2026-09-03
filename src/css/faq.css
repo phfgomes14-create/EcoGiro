@@ -1,0 +1,337 @@
+/* ============================================
+   MOBILE (BASE)
+   ============================================ */
+
+.faq{
+    width: 100%;
+    background-color: var(--white);
+    padding: 60px 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.faq-sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.faq-tag{
+    display: block;
+    font-family: 'Courier New', monospace;
+    color: #1f7638;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.faq-title{
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.faq-title span{
+    color: var(--blue);
+}
+
+.faq-subtitle{
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.faq-support-btn{
+    border: 1px solid var(--dark);
+    color: var(--dark);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.faq-list{
+    display: flex;
+    flex-direction: column;
+}
+
+.faq-item{
+    border-top: 1px solid var(--border);
+}
+
+.faq-item:last-child{
+    border-bottom: 1px solid var(--border);
+}
+
+.faq-question{
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 20px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.faq-icon{
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--gray);
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question{
+    color: var(--blue);
+}
+
+.faq-item.active .faq-icon{
+    transform: rotate(45deg);
+    color: var(--blue);
+    border-color: var(--blue);
+}
+
+.faq-answer{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-left: 2px solid transparent;
+}
+
+.faq-item.active .faq-answer{
+    max-height: 300px;
+    border-left: 2px solid var(--blue);
+}
+
+.faq-answer p{
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.6;
+    padding: 0 0 20px 16px;
+}
+
+
+/* ============================================
+   TABLET/DESKTOP - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    .faq{
+        flex-direction: row;
+        gap: 60px;
+        align-items: flex-start;
+    }
+
+    .faq-sidebar{
+        flex: 0 0 30%;
+        position: sticky;
+        top: 100px;
+    }
+
+    .faq-title{
+        font-size: 36px;
+    }
+
+    .faq-list{
+        flex: 1;
+    }
+
+    .faq-question{
+        font-size: 16px;
+        padding: 24px 0;
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    .faq{
+        padding: 80px 8%;
+    }
+
+    .faq-tag{
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    .faq-title{
+        font-size: 44px;
+    }
+
+    .faq-subtitle{
+        font-size: 15px;
+    }
+}
+
+/* ============================================
+    INICIO DO MODAL DE CONTATO
+   ============================================ */
+
+   /* ============================================
+   MOBILE (BASE)
+   ============================================ */
+
+.modal-overlay{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(19, 43, 59, 0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-overlay.active{
+    display: flex;
+}
+
+.modal-box{
+    position: relative;
+    background-color: var(--white);
+    border-radius: 12px;
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-close{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--gray);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-title{
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 24px;
+}
+
+.contact-form{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-row{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.form-group label{
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    color: var(--dark);
+}
+
+.form-group textarea{
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder{
+    color: var(--gray);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    outline: none;
+    border-color: var(--blue);
+}
+
+.btn-enviar{
+    width: 100%;
+    background-color: var(--green);
+    color: var(--white);
+    border: none;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-enviar:hover{
+    background-color: var(--dark-green);
+}
+
+.modal-footer-note{
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 8px;
+}
+
+
+/* ============================================
+   TABLET/DESKTOP - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    .modal-box{
+        padding: 40px 36px;
+    }
+
+    .form-row{
+        flex-direction: row;
+    }
+}
