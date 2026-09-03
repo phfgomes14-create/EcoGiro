@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoGiro - Motor de Recomendação</title>
+    <link rel="stylesheet" href="morecodes/css/style-quiz.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <a href="index.htm" class="logo">
+        <img class="logo-img" src="morecodes/img/icone.svg" alt="Logo EcoGiro">
+        <i class="logo-text">Eco<span>Giro</span></i>
+    </a>
+    <div class="header-label">// Motor de recomendação</div>
+</header>
+
+<main>
+  <div id="quiz-screen">
+    <div class="progress-row">
+      <span class="label" id="progress-label">PERGUNTA 1 / 5</span>
+      <span class="pct" id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+    <h1 class="question" id="question-text"></h1>
+    <div class="grid" id="options"></div>
+    <button class="back" id="back-btn">← Voltar</button>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <span class="eyebrow-top">// Análise concluída — recomendação gerada</span>
+
+    <div class="hero-card">
+      <div class="hero-image" id="hero-image">
+        <div class="hero-badge" id="hero-badge"></div>
+        <span class="emoji" id="hero-emoji"></span>
+      </div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Nossa recomendação</div>
+        <h2 class="hero-title" id="hero-title"></h2>
+        <p class="hero-subtitle">A escolha certa para você</p>
+        <ul class="hero-bullets" id="hero-bullets"></ul>
+        <div class="hero-price" id="hero-price"></div>
+        <div class="hero-actions">
+          <button class="btn-primary" id="reserve-btn">Reservar agora</button>
+          <button class="btn-secondary" id="restart-btn">Refazer</button>
+        </div>
+      </div>
+    </div>
+
+    <span class="section-label">// Alternativa considerada</span>
+    <div class="alt-wrap">
+      <div class="alt-card" id="alt-card">
+        <span class="icon" id="alt-icon"></span>
+        <div>
+          <div class="name" id="alt-name"></div>
+          <div class="desc">Segunda opção compatível — toque para selecionar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="answers-card">
+      <span class="section-label">// Suas respostas</span>
+      <div class="answers-grid" id="answers-grid"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // 1. Perguntas — cada opção aponta para um perfil de veículo
+  const questions = [
+    {
+      key: "FINALIDADE",
+      text: "Qual a finalidade principal do uso?",
+      options: [
+        { icon: "📦", label: "Trabalho e entregas", profile: "moto" },
+        { icon: "🌿", label: "Lazer e passeios", profile: "bicicleta" },
+        { icon: "🏙️", label: "Deslocamento urbano curto", profile: "patinete" },
+        { icon: "💼", label: "Commute diário confortável", profile: "ebike" }
+      ]
+    },
+    {
+      key: "DISTÂNCIA",
+      text: "Qual a distância média percorrida?",
+      options: [
+        { icon: "📍", label: "Curta — até 3 km", profile: "patinete" },
+        { icon: "🗺️", label: "Média — 3 a 10 km", profile: "ebike" },
+        { icon: "🏞️", label: "Longa — 10 a 30 km", profile: "bicicleta" },
+        { icon: "⛰️", label: "Muito longa — acima de 30 km", profile: "moto" }
+      ]
+    },
+    {
+      key: "HABILITAÇÃO",
+      text: "Você possui habilitação?",
+      options: [
+        { icon: "🏍️", label: "Sim, categoria A", profile: "moto" },
+        { icon: "🚫", label: "Não tenho e não pretendo tirar", profile: "bicicleta" },
+        { icon: "🔋", label: "Não preciso, mas ajuda ter", profile: "ebike" },
+        { icon: "❔", label: "Não se aplica", profile: "patinete" }
+      ]
+    },
+    {
+      key: "ESFORÇO",
+      text: "Quanto esforço físico você topa fazer?",
+      options: [
+        { icon: "🛋️", label: "Nenhum — prefiro motorizado", profile: "moto" },
+        { icon: "⚡", label: "Pouco — gosto de ajuda elétrica", profile: "ebike" },
+        { icon: "🚴", label: "Moderado — tudo bem pedalar", profile: "bicicleta" },
+        { icon: "🧍", label: "Nenhum — prefiro ir em pé", profile: "patinete" }
+      ]
+    },
+    {
+      key: "ORÇAMENTO",
+      text: "Qual seu orçamento aproximado?",
+      options: [
+        { icon: "💰", label: "Econômico", profile: "bicicleta" },
+        { icon: "💵", label: "Médio", profile: "patinete" },
+        { icon: "💳", label: "Alto", profile: "ebike" },
+        { icon: "🏆", label: "Premium", profile: "moto" }
+      ]
+    }
+  ];
+
+  // 2. Perfis de veículo possíveis — agora usando as fotos reais já usadas na seção de Frotas,
+  //    e cores reaproveitadas do resto do site (frotas/publico) para manter consistência visual.
+  const vehicles = {
+    moto: {
+      title: "Motocicleta", icon: "morecodes/img/Moto.png", color: "#e8542c",
+      bullets: ["Ideal para longas distâncias", "Alta produtividade para entregas", "Maior autonomia da frota"],
+      price: "A partir de R$ 89/dia"
+    },
+    bicicleta: {
+      title: "Bicicleta", icon: "morecodes/img/bike.jpg", color: "#2da44f",
+      bullets: ["Sem custo de combustível ou recarga", "Ótima para exercício e trajetos curtos", "Fácil de estacionar em qualquer lugar"],
+      price: "A partir de R$ 15/dia"
+    },
+    ebike: {
+      title: "E-bike", icon: "morecodes/img/e-bike.jpg", color: "#0c9bc9",
+      bullets: ["Pedalada assistida, sem esforço extra", "Ideal para trajetos médios com conforto", "Não exige habilitação"],
+      price: "A partir de R$ 35/dia"
+    },
+    patinete: {
+      title: "Patinete elétrico", icon: "morecodes/img/patinete.jpg", color: "#7c4dff",
+      bullets: ["Leve e fácil de guardar", "Perfeito para trajetos curtos", "Não exige habilitação"],
+      price: "A partir de R$ 25/dia"
+    }
+  };
+
+  // 3. Estado
+  let current = 0;
+  const answers = []; // { key, label, profile }
+  let ranked = [];     // perfis ordenados por pontuação
+  let activeIndex = 0; // 0 = principal em destaque, 1 = alternativa em destaque
+
+  // Detecta se "icon" é um caminho/URL de imagem (png, jpg, svg, etc.) ou um emoji comum.
+  // Se for imagem, gera uma tag <img>; caso contrário, devolve o próprio emoji como texto.
+  function iconHTML(icon, altText, extraClass = '') {
+    const isImage = /\.(png|jpe?g|gif|svg|webp)$/i.test(icon) || /^https?:\/\//i.test(icon);
+    if (isImage) {
+      return `<img src="${icon}" alt="${altText}" class="icon-img ${extraClass}">`;
+    }
+    return icon;
+  }
+
+  const questionText = document.getElementById('question-text');
+  const optionsEl = document.getElementById('options');
+  const progressLabel = document.getElementById('progress-label');
+  const progressPct = document.getElementById('progress-pct');
+  const progressFill = document.getElementById('progress-fill');
+  const backBtn = document.getElementById('back-btn');
+
+  function renderQuestion() {
+    const q = questions[current];
+    questionText.textContent = q.text;
+    progressLabel.textContent = `PERGUNTA ${current + 1} / ${questions.length}`;
+    const pct = Math.round((current / questions.length) * 100);
+    progressPct.textContent = `${pct}%`;
+    progressFill.style.width = `${pct}%`;
+    backBtn.disabled = current === 0;
+
+    optionsEl.innerHTML = '';
+    q.options.forEach(opt => {
+      const card = document.createElement('button');
+      card.className = 'card';
+      card.innerHTML = `<span class="icon">${iconHTML(opt.icon, opt.label)}</span><span class="label">${opt.label}</span>`;
+      card.onclick = () => selectAnswer(q.key, opt.label, opt.profile);
+      optionsEl.appendChild(card);
+    });
+  }
+
+  function selectAnswer(key, label, profile) {
+    answers[current] = { key, label, profile };
+    if (current < questions.length - 1) {
+      current++;
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  backBtn.onclick = () => {
+    if (current > 0) { current--; renderQuestion(); }
+  };
+
+  // 4. Cálculo: ranking de perfis pela contagem de respostas
+  function calculateRanking() {
+    const scores = { moto: 0, bicicleta: 0, ebike: 0, patinete: 0 };
+    answers.forEach(a => scores[a.profile]++);
+    return Object.entries(scores).sort((a, b) => b[1] - a[1]).map(e => e[0]);
+  }
+
+  function showResult() {
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+
+    ranked = calculateRanking();
+    activeIndex = 0;
+    renderHero();
+    renderAnswers();
+  }
+
+  function renderHero() {
+    const mainProfile = ranked[activeIndex];
+    const altProfile = ranked[1 - activeIndex];
+    const v = vehicles[mainProfile];
+    const alt = vehicles[altProfile];
+
+    document.getElementById('hero-emoji').innerHTML = iconHTML(v.icon, v.title);
+    document.getElementById('hero-badge').style.background = v.color;
+    document.getElementById('hero-badge').innerHTML = `${v.title}`;
+    document.getElementById('hero-title').textContent = v.title;
+    document.getElementById('hero-title').style.color = v.color;
+
+    const bulletsEl = document.getElementById('hero-bullets');
+    bulletsEl.innerHTML = '';
+    v.bullets.forEach(b => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="dot" style="background:${v.color}"></span><span>${b}</span>`;
+      bulletsEl.appendChild(li);
+    });
+
+    const priceEl = document.getElementById('hero-price');
+    priceEl.textContent = v.price;
+    priceEl.style.color = v.color;
+
+    document.getElementById('reserve-btn').style.background = v.color;
+
+    document.getElementById('alt-icon').innerHTML = iconHTML(alt.icon, alt.title);
+    document.getElementById('alt-name').textContent = alt.title;
+  }
+
+  document.getElementById('alt-card').onclick = () => {
+    activeIndex = 1 - activeIndex;
+    renderHero();
+  };
+
+  function renderAnswers() {
+    const grid = document.getElementById('answers-grid');
+    grid.innerHTML = '';
+    answers.forEach(a => {
+      const div = document.createElement('div');
+      div.className = 'answer-item';
+      div.innerHTML = `<div class="k">${a.key}</div><div class="v">${a.label}</div>`;
+      grid.appendChild(div);
+    });
+  }
+
+  document.getElementById('reserve-btn').onclick = () => {
+    alert('Reserva simulada — plugue aqui sua integração real de checkout.');
+  };
+
+  document.getElementById('restart-btn').onclick = () => {
+    current = 0;
+    answers.length = 0;
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    renderQuestion();
+  };
+
+  renderQuestion();
+</script>
+
+</body>
+</html>
