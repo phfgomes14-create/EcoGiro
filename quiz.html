@@ -124,8 +124,7 @@
     }
   ];
 
-  // 2. Perfis de veículo possíveis — agora usando as fotos reais já usadas na seção de Frotas,
-  //    e cores reaproveitadas do resto do site (frotas/publico) para manter consistência visual.
+  // 2. Perfis de veículo possíveis
   const vehicles = {
     moto: {
       title: "Motocicleta", icon: "src/img/Moto.png", color: "#e8542c",
@@ -151,12 +150,10 @@
 
   // 3. Estado
   let current = 0;
-  const answers = []; // { key, label, profile }
-  let ranked = [];     // perfis ordenados por pontuação
-  let activeIndex = 0; // 0 = principal em destaque, 1 = alternativa em destaque
+  const answers = [];
+  let ranked = [];
+  let activeIndex = 0;
 
-  // Detecta se "icon" é um caminho/URL de imagem (png, jpg, svg, etc.) ou um emoji comum.
-  // Se for imagem, gera uma tag <img>; caso contrário, devolve o próprio emoji como texto.
   function iconHTML(icon, altText, extraClass = '') {
     const isImage = /\.(png|jpe?g|gif|svg|webp)$/i.test(icon) || /^https?:\/\//i.test(icon);
     if (isImage) {
@@ -205,14 +202,13 @@
     if (current > 0) { current--; renderQuestion(); }
   };
 
-  // 4. Cálculo: ranking de perfis pela contagem de respostas
   function calculateRanking() {
     const scores = { moto: 0, bicicleta: 0, ebike: 0, patinete: 0 };
     answers.forEach(a => scores[a.profile]++);
     return Object.entries(scores).sort((a, b) => b[1] - a[1]).map(e => e[0]);
   }
 
-  function showResult() {
+  async function showResult() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
 
@@ -220,6 +216,26 @@
     activeIndex = 0;
     renderHero();
     renderAnswers();
+
+    // Mapeamento e envio do payload para o backend Java / Spring Boot
+    const payload = {
+      finalidade: answers.find(a => a.key === 'FINALIDADE')?.label || '',
+      distancia: answers.find(a => a.key === 'DISTÂNCIA')?.label || '',
+      habilitacao: answers.find(a => a.key === 'HABILITAÇÃO')?.label || '',
+      esforco: answers.find(a => a.key === 'ESFORÇO')?.label || '',
+      orcamento: answers.find(a => a.key === 'ORÇAMENTO')?.label || ''
+    };
+
+    try {
+      await fetch('http://localhost:8080/recomendacao', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      console.log('Dados salvos com sucesso no backend Spring Boot!');
+    } catch (err) {
+      console.error('Erro ao enviar requisição para o backend:', err);
+    }
   }
 
   function renderHero() {
