@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoGiro - Motor de Recomendação</title>
-    <link rel="stylesheet" href="src/css/style-quiz.css">
+    <link rel="stylesheet" href="css/style-quiz.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header>
-    <a href="index.htm" class="logo">
-        <img class="logo-img" src="src/img/icone.svg" alt="Logo EcoGiro">
+    <a href="index.html" class="logo">
+        <img class="logo-img" src="img/icone.svg" alt="Logo EcoGiro">
         <i class="logo-text">Eco<span>Giro</span></i>
     </a>
     <div class="header-label">// Motor de recomendação</div>
@@ -73,6 +73,7 @@
   // 1. Perguntas — cada opção aponta para um perfil de veículo
   const questions = [
     {
+
       key: "FINALIDADE",
       text: "Qual a finalidade principal do uso?",
       options: [
@@ -81,8 +82,11 @@
         { icon: "🏙️", label: "Deslocamento urbano curto", profile: "patinete" },
         { icon: "💼", label: "Commute diário confortável", profile: "ebike" }
       ]
+      
     },
+
     {
+
       key: "DISTÂNCIA",
       text: "Qual a distância média percorrida?",
       options: [
@@ -91,8 +95,11 @@
         { icon: "🏞️", label: "Longa — 10 a 30 km", profile: "bicicleta" },
         { icon: "⛰️", label: "Muito longa — acima de 30 km", profile: "moto" }
       ]
+
     },
+
     {
+
       key: "HABILITAÇÃO",
       text: "Você possui habilitação?",
       options: [
@@ -101,18 +108,23 @@
         { icon: "🔋", label: "Não preciso, mas ajuda ter", profile: "ebike" },
         { icon: "❔", label: "Não se aplica", profile: "patinete" }
       ]
+
     },
+
     {
       key: "ESFORÇO",
       text: "Quanto esforço físico você topa fazer?",
       options: [
+
         { icon: "🛋️", label: "Nenhum — prefiro motorizado", profile: "moto" },
         { icon: "⚡", label: "Pouco — gosto de ajuda elétrica", profile: "ebike" },
         { icon: "🚴", label: "Moderado — tudo bem pedalar", profile: "bicicleta" },
         { icon: "🧍", label: "Nenhum — prefiro ir em pé", profile: "patinete" }
       ]
     },
+
     {
+
       key: "ORÇAMENTO",
       text: "Qual seu orçamento aproximado?",
       options: [
@@ -121,31 +133,44 @@
         { icon: "💳", label: "Alto", profile: "ebike" },
         { icon: "🏆", label: "Premium", profile: "moto" }
       ]
+
     }
+
   ];
 
   // 2. Perfis de veículo possíveis
   const vehicles = {
     moto: {
-      title: "Motocicleta", icon: "src/img/Moto.png", color: "#e8542c",
+
+      title: "Motocicleta", icon: "img/Moto.png", color: "#e8542c",
       bullets: ["Ideal para longas distâncias", "Alta produtividade para entregas", "Maior autonomia da frota"],
       price: "A partir de R$ 89/dia"
+
     },
+
     bicicleta: {
-      title: "Bicicleta", icon: "src/img/bike.jpg", color: "#2da44f",
+
+      title: "Bicicleta", icon: "img/bike.jpg", color: "#2da44f",
       bullets: ["Sem custo de combustível ou recarga", "Ótima para exercício e trajetos curtos", "Fácil de estacionar em qualquer lugar"],
       price: "A partir de R$ 15/dia"
+
     },
     ebike: {
-      title: "E-bike", icon: "src/img/e-bike.jpg", color: "#0c9bc9",
+
+      title: "E-bike", icon: "img/e-bike.jpg", color: "#0c9bc9",
       bullets: ["Pedalada assistida, sem esforço extra", "Ideal para trajetos médios com conforto", "Não exige habilitação"],
       price: "A partir de R$ 35/dia"
+
     },
+
     patinete: {
-      title: "Patinete elétrico", icon: "src/img/patinete.jpg", color: "#7c4dff",
+
+      title: "Patinete elétrico", icon: "img/patinete.jpg", color: "#7c4dff",
       bullets: ["Leve e fácil de guardar", "Perfeito para trajetos curtos", "Não exige habilitação"],
       price: "A partir de R$ 25/dia"
+
     }
+
   };
 
   // 3. Estado
@@ -155,11 +180,13 @@
   let activeIndex = 0;
 
   function iconHTML(icon, altText, extraClass = '') {
+
     const isImage = /\.(png|jpe?g|gif|svg|webp)$/i.test(icon) || /^https?:\/\//i.test(icon);
     if (isImage) {
       return `<img src="${icon}" alt="${altText}" class="icon-img ${extraClass}">`;
     }
     return icon;
+
   }
 
   const questionText = document.getElementById('question-text');
@@ -170,6 +197,7 @@
   const backBtn = document.getElementById('back-btn');
 
   function renderQuestion() {
+
     const q = questions[current];
     questionText.textContent = q.text;
     progressLabel.textContent = `PERGUNTA ${current + 1} / ${questions.length}`;
@@ -180,35 +208,50 @@
 
     optionsEl.innerHTML = '';
     q.options.forEach(opt => {
+
       const card = document.createElement('button');
       card.className = 'card';
       card.innerHTML = `<span class="icon">${iconHTML(opt.icon, opt.label)}</span><span class="label">${opt.label}</span>`;
       card.onclick = () => selectAnswer(q.key, opt.label, opt.profile);
       optionsEl.appendChild(card);
+
     });
+
   }
 
   function selectAnswer(key, label, profile) {
+
     answers[current] = { key, label, profile };
+
     if (current < questions.length - 1) {
+
       current++;
       renderQuestion();
+
     } else {
+
       showResult();
+
     }
+
   }
 
   backBtn.onclick = () => {
+
     if (current > 0) { current--; renderQuestion(); }
+
   };
 
   function calculateRanking() {
+
     const scores = { moto: 0, bicicleta: 0, ebike: 0, patinete: 0 };
     answers.forEach(a => scores[a.profile]++);
     return Object.entries(scores).sort((a, b) => b[1] - a[1]).map(e => e[0]);
+
   }
 
   async function showResult() {
+
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
 
@@ -219,26 +262,36 @@
 
     // Mapeamento e envio do payload para o backend Java / Spring Boot
     const payload = {
+
       finalidade: answers.find(a => a.key === 'FINALIDADE')?.label || '',
       distancia: answers.find(a => a.key === 'DISTÂNCIA')?.label || '',
       habilitacao: answers.find(a => a.key === 'HABILITAÇÃO')?.label || '',
       esforco: answers.find(a => a.key === 'ESFORÇO')?.label || '',
       orcamento: answers.find(a => a.key === 'ORÇAMENTO')?.label || ''
+
     };
 
     try {
       await fetch('http://localhost:8080/recomendacao', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
+
       });
+
       console.log('Dados salvos com sucesso no backend Spring Boot!');
+
     } catch (err) {
+
       console.error('Erro ao enviar requisição para o backend:', err);
+
     }
+
   }
 
   function renderHero() {
+
     const mainProfile = ranked[activeIndex];
     const altProfile = ranked[1 - activeIndex];
     const v = vehicles[mainProfile];
@@ -253,9 +306,11 @@
     const bulletsEl = document.getElementById('hero-bullets');
     bulletsEl.innerHTML = '';
     v.bullets.forEach(b => {
+
       const li = document.createElement('li');
       li.innerHTML = `<span class="dot" style="background:${v.color}"></span><span>${b}</span>`;
       bulletsEl.appendChild(li);
+
     });
 
     const priceEl = document.getElementById('hero-price');
@@ -266,34 +321,43 @@
 
     document.getElementById('alt-icon').innerHTML = iconHTML(alt.icon, alt.title);
     document.getElementById('alt-name').textContent = alt.title;
+
   }
 
   document.getElementById('alt-card').onclick = () => {
+
     activeIndex = 1 - activeIndex;
     renderHero();
+
   };
 
   function renderAnswers() {
+
     const grid = document.getElementById('answers-grid');
     grid.innerHTML = '';
     answers.forEach(a => {
+
       const div = document.createElement('div');
       div.className = 'answer-item';
       div.innerHTML = `<div class="k">${a.key}</div><div class="v">${a.label}</div>`;
       grid.appendChild(div);
     });
+
   }
 
   document.getElementById('reserve-btn').onclick = () => {
     alert('Reserva simulada — plugue aqui sua integração real de checkout.');
+
   };
 
   document.getElementById('restart-btn').onclick = () => {
+
     current = 0;
     answers.length = 0;
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     renderQuestion();
+
   };
 
   renderQuestion();
