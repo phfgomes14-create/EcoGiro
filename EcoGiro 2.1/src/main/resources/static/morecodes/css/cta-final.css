@@ -1,0 +1,107 @@
+/* ============================================
+   MOBILE (BASE)
+   ============================================ */
+
+.cta-final{
+    width: 100%;
+    background-color: var(--green);
+    padding: 48px 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.cta-final-content{
+    display: flex;
+    flex-direction: column;
+}
+
+.cta-final-tag{
+    display: block;
+    font-family: 'Courier New', monospace;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.cta-final-title{
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.cta-final-action{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.btn-cta-final{
+    background-color: var(--white);
+    color: var(--dark);
+    border: none;
+    padding: 16px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cta-final:hover{
+    background-color: var(--light-gray);
+}
+
+.cta-final-note{
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* ============================================
+   TABLET/DESKTOP - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    .cta-final{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 56px 6%;
+    }
+
+    .cta-final-title{
+        font-size: 44px;
+    }
+
+    .cta-final-action{
+        align-items: flex-end;
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    .cta-final{
+        padding: 64px 8%;
+    }
+
+    .cta-final-tag{
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    .cta-final-title{
+        font-size: 56px;
+    }
+}
