@@ -6,6 +6,17 @@
 * **Curso:** Análise e Desenvolvimento de Sistemas
 * **Disciplina:** Projeto Integrado WEB
 * **Orientador:** Profº Hudson Neves
+* ## Equipe do Projeto
+
+* **Integrantes:**
+* - Alessandro Falcão Zovico
+* - Arthur Cauã Machado De Souza
+* - Cauã Alves Fernandes
+* - Edna Júlia Menezes Marques
+* - Lucas Ibiapina De Morais
+* - Pedro Henrique Ferreira Gomes
+* - Sophia Fonseca Mandovano Moreira de Azevedo
+* - Yudi Fidelis De Morais
 
 ---
 
@@ -188,13 +199,6 @@ ecogiro/
 * **Tela Principal (Landing Page):** `[ Inserir imagem da landing page aqui ]`
 * **Quiz de Recomendação:** `[ Inserir imagem da tela do quiz aqui ]`
 * **Banco de Dados H2:** `[ Inserir imagem do H2 Console com os registros gravados aqui ]`
-
----
-
-## Equipe do Projeto
-
-* **Integrantes:**
-* -
 
 ---
 
