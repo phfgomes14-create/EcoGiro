@@ -2,9 +2,9 @@
 
 ## Identificação Acadêmica
 
-* **Instituição de Ensino:** A ser definido pela equipe
-* **Curso:** A ser definido pela equipe
-* **Disciplina:** A ser definido pela equipe
+* **Instituição de Ensino:** Centro Universitário do Planalto Central Apparecido dos Santos
+* **Curso:** Análise e Desenvolvimento de Sistemas
+* **Disciplina:** Projeto Integrado WEB
 * **Orientador:** Profº Hudson Neves
 
 ---
