@@ -193,7 +193,8 @@ ecogiro/
 
 ## Equipe do Projeto
 
-* **Integrantes:** A ser definido pela equipe
+* **Integrantes:**
+* -
 
 ---
 
@@ -205,7 +206,3 @@ ecogiro/
 * Mapeamento de persistência em banco de dados relacional permanente (PostgreSQL/MySQL) para ambiente de produção.
 
 ---
-
-## Licença
-
-A ser definido pela equipe
