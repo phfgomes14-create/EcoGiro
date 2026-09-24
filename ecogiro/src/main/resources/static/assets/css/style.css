@@ -36,18 +36,27 @@ body{
    MOBILE (BASE) - de 0px até 767px
    ============================================ */
 
-.btn-default{
+.btn-default {
+    border-radius: 999px;
+    border: 1px solid transparent;
+    min-height: 44px;
+    padding: 10px 22px;
+    font-weight: 600;
+    color: var(--blue);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(22, 134, 61, 0.2);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn-default:hover {
     background-color: var(--green);
-    color: var(--white);
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    box-shadow: 0 6px 16px rgba(22, 134, 61, 0.28);
+    transform: translateY(-1px);
+}
+
+.btn-default:focus-visible {
+    outline: 2px solid var(--dark-green);
+    outline-offset: 2px;
 }
 
 .hero {
