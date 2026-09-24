@@ -1,0 +1,182 @@
+/* ============================================
+   MOBILE (BASE) - de 0px até 767px
+   ============================================ */
+
+header{
+    width: 100%;
+    padding: 16px 5%;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 8px auto;
+    margin-bottom: 0;
+}
+
+#navbar{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.brand-actions{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.logo{
+    gap: 6px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-text{
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    line-height: 1;
+    font-weight: 600;
+    font-style: bold;
+    color: var(--green);
+}
+
+.logo-text span{
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    margin: 0;
+    line-height: 1;
+    font-style: bold;
+}
+
+.logo-img{
+    width: 48px;
+    height: auto;
+}
+
+.nav_list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    list-style: none;
+    width: 100%;
+}
+
+.nav_list li a{
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.nav_list li.active a{
+    color: var(--green);
+}
+
+.brand-actions .btn-login{
+    width: auto;
+    white-space: nowrap;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 2px solid var(--green);
+    border-radius: 999px;
+    box-shadow: 0 4px 10px rgba(45, 164, 79, 0.2);
+    font-weight: 600;
+    line-height: 1.2;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.brand-actions .btn-login:hover{
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+    box-shadow: 0 6px 14px rgba(22, 134, 61, 0.28);
+    transform: translateY(-1px);
+}
+
+.brand-actions .btn-login:focus-visible{
+    outline: 3px solid rgba(12, 155, 201, 0.35);
+    outline-offset: 3px;
+}
+
+.btn-login{
+    text-decoration: none;
+}
+
+
+/* ============================================
+   TABLET - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    #navbar{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .logo{
+        font-size: 24px;
+    }
+
+    .logo-img{
+        width: 64px;
+    }
+
+    .nav_list{
+        flex-direction: row;
+        align-items: center;
+        gap: 28px;
+        width: auto;
+    }
+
+    .nav_list li a{
+        font-size: 18px;
+    }
+
+    .brand-actions .btn-login{
+        padding: 10px 16px;
+        font-size: 16px;
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    header{
+        padding: 28px 8%;
+        margin: 16px auto;
+        margin-bottom: 0;
+    }
+
+    .logo{
+        gap: 0px;
+        font-size: 28px;
+    }
+
+    .logo-img{
+        width: 80px;
+    }
+
+    .nav_list{
+        gap: 48px;
+    }
+
+    .nav_list li a{
+        font-size: 20px;
+    }
+}
+
