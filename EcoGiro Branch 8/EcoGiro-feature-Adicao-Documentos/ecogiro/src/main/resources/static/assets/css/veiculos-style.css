@@ -1,0 +1,243 @@
+/* ============================================
+   MOBILE (BASE)
+   ============================================ */
+
+.frotas{
+    width: 100%;
+    background-color: var(--light-gray);
+    padding: 100px 5% 48px;
+}
+
+.frotas-header{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.frotas-title-group{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.frotas-tag{
+    display: block;
+    font-family: 'Courier New', monospace;
+    color: #1f7638;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.frotas-title{
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.frotas-link{
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray);
+    text-decoration: underline;
+}
+
+.frotas-tabs{
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+    overflow-x: auto;
+}
+
+.tab-btn{
+    background: none;
+    border: none;
+    padding: 12px 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+}
+
+.tab-btn.active{
+    color: var(--dark);
+    border-bottom: 2px solid var(--dark);
+}
+
+.frotas-content{
+    background-color: var(--white);
+    border: 1px solid var(--border);
+}
+
+.veiculo-card{
+    display: none;
+    flex-direction: column;
+}
+
+.veiculo-card.active{
+    display: flex;
+}
+
+.veiculo-img{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.veiculo-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.veiculo-price{
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background-color: #12668c;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+}
+
+.veiculo-info{
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.veiculo-info h3{
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--dark);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.veiculo-subtitle{
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 20px;
+}
+
+.veiculo-info p{
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.veiculo-specs{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.veiculo-specs li{
+    position: relative;
+    padding-left: 18px;
+    font-size: 14px;
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.veiculo-specs li::before{
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #12668c;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.btn-reservar{
+    width: 100%;
+    background-color: #12668c;
+    color: var(--white);
+    border: none;
+    padding: 18px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-reservar:hover{
+    background-color: #0c9bc9;
+}
+
+#tab-ebike .veiculo-img img{
+    object-position: center 40%;
+}
+
+/* ============================================
+   TABLET - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    .frotas-header{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .frotas-title{
+        font-size: 40px;
+    }
+
+    .veiculo-card{
+        flex-direction: row;
+    }
+
+    .veiculo-img{
+        width: 50%;
+        aspect-ratio: unset;
+    }
+
+    .veiculo-info{
+        width: 50%;
+        padding: 48px;
+        justify-content: center;
+    }
+
+    .btn-reservar{
+        margin-top: auto;
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    .frotas{
+        padding: 64px 8%;
+    }
+
+    .frotas-title{
+        font-size: 48px;
+    }
+
+    .veiculo-info h3{
+        font-size: 40px;
+    }
+}

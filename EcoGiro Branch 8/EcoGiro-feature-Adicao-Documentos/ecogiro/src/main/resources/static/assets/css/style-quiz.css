@@ -1,0 +1,554 @@
+:root {
+    --green: #2da44f;
+    --dark-green: #16863d;
+    --light-green: #eaf8ed;
+
+    --blue: #0c9bc9;
+    --light-blue: #eaf8fc;
+
+    --dark: #132b3b;
+    --text: #263743;
+    --gray: #65747e;
+    --light-gray: #f5f8f7;
+
+    --white: #ffffff;
+    --border: #e3ece7;
+
+    --shadow: 0 8px 30px rgba(25, 70, 50, 0.08);
+    --radius: 12px;
+}
+
+*{
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: var(--light-gray);
+    color: var(--text);
+}
+
+.hidden{
+    display: none !important;
+}
+
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+header{
+    width: 100%;
+    background-color: var(--white);
+    padding: 16px 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.logo-img{
+    width: 40px;
+    height: auto;
+}
+
+.logo-text{
+    display: inline-flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--green);
+}
+
+.logo-text span{
+    color: var(--blue);
+}
+
+.header-label{
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--blue);
+}
+
+
+/* ============================================
+   MAIN / LAYOUT BASE (MOBILE FIRST)
+   ============================================ */
+
+main{
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 5% 64px;
+}
+
+
+/* ============================================
+   TELA DO QUIZ
+   ============================================ */
+
+.progress-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.progress-row .label{
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gray);
+}
+
+.progress-row .pct{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+}
+
+.progress-track{
+    width: 100%;
+    height: 6px;
+    background-color: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.progress-fill{
+    height: 100%;
+    width: 0%;
+    background-color: var(--green);
+    border-radius: 999px;
+    transition: width 0.35s ease;
+}
+
+.question{
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.3;
+    margin-bottom: 24px;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.card:hover{
+    border-color: var(--green);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+.card .icon{
+    font-size: 24px;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-green);
+    border-radius: 8px;
+}
+
+.card .icon-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.card .label{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.back{
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.back:disabled{
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.back:not(:disabled):hover{
+    color: var(--dark);
+}
+
+
+/* ============================================
+   TELA DE RESULTADO
+   ============================================ */
+
+.eyebrow-top,
+.section-label{
+    display: block;
+    font-family: 'Courier New', monospace;
+    color: #1f7638;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.section-label{
+    margin-top: 32px;
+}
+
+.hero-card{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.hero-image{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background-color: var(--light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-image .icon-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-badge{
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.hero-content{
+    padding: 24px 20px 28px;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-eyebrow{
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 6px;
+}
+
+.hero-title{
+    font-size: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.hero-subtitle{
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 20px;
+}
+
+.hero-bullets{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.hero-bullets li{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+.hero-bullets .dot{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.hero-price{
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero-actions{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-primary{
+    width: 100%;
+    background-color: var(--green);
+    color: var(--white);
+    border: none;
+    padding: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.btn-primary:hover{
+    filter: brightness(0.92);
+}
+
+.btn-secondary{
+    width: 100%;
+    background-color: var(--white);
+    color: var(--dark);
+    border: 1px solid var(--border);
+    padding: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover{
+    border-color: var(--dark);
+}
+
+.alt-wrap{
+    display: flex;
+}
+
+.alt-card{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.alt-card:hover{
+    box-shadow: var(--shadow);
+    border-color: var(--blue);
+}
+
+.alt-card .icon{
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.alt-card .icon-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.alt-card .name{
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.alt-card .desc{
+    font-size: 13px;
+    color: var(--gray);
+}
+
+.answers-card{
+    margin-top: 32px;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.answers-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.answer-item{
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+
+.answer-item .k{
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.answer-item .v{
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+
+/* ============================================
+   TABLET - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    header{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 6%;
+    }
+
+    main{
+        max-width: 900px;
+        padding: 48px 6% 80px;
+    }
+
+    .question{
+        font-size: 28px;
+    }
+
+    .grid{
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .hero-card{
+        flex-direction: row;
+    }
+
+    .hero-image{
+        width: 42%;
+        aspect-ratio: unset;
+    }
+
+    .hero-content{
+        width: 58%;
+        padding: 36px 40px;
+    }
+
+    .hero-title{
+        font-size: 36px;
+    }
+
+    .hero-actions{
+        flex-direction: row;
+    }
+
+    .answers-grid{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    main{
+        max-width: 1040px;
+    }
+
+    .question{
+        font-size: 32px;
+    }
+
+    .hero-title{
+        font-size: 42px;
+    }
+
+    .hero-price{
+        font-size: 26px;
+    }
+
+    .answers-grid{
+        grid-template-columns: repeat(5, 1fr);
+    }
+}

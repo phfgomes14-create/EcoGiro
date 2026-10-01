@@ -1,0 +1,166 @@
+/* ============================================
+   MOBILE (BASE)
+   ============================================ */
+
+.footer{
+    width: 100%;
+    background-color: var(--dark);
+    padding: 48px 5% 24px;
+}
+
+.footer-top{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-brand{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.footer-logo{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 20px;
+}
+
+.footer-logo .logo-img{
+    width: 40px;
+    height: auto;
+}
+
+.footer-logo .logo-text{
+    font-weight: 600;
+    font-style: normal;
+    color: var(--white);
+}
+
+.footer-logo .logo-text span{
+    color: #6fd88a;
+}
+
+.footer-tagline{
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    max-width: 320px;
+}
+
+.footer-social{
+    display: flex;
+    gap: 14px;
+}
+
+.footer-social a{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-social a:hover{
+    background-color: var(--green);
+}
+
+.footer-col h4{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.footer-col ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-col a,
+.footer-col span{
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-col a:hover{
+    color: var(--white);
+}
+
+.footer-bottom{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* ============================================
+   TABLET - a partir de 768px
+   ============================================ */
+@media (min-width: 768px){
+
+    .footer{
+        padding: 64px 6% 24px;
+    }
+
+    .footer-top{
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 32px;
+    }
+
+    .footer-brand{
+        flex: 1 1 100%;
+        max-width: 320px;
+    }
+
+    .footer-col{
+        flex: 1;
+        min-width: 140px;
+    }
+
+    .footer-bottom{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+
+/* ============================================
+   DESKTOP - a partir de 1024px
+   ============================================ */
+@media (min-width: 1024px){
+
+    .footer{
+        padding: 72px 8% 28px;
+    }
+
+    .footer-brand{
+        flex: 0 0 28%;
+        max-width: none;
+    }
+
+    .footer-col{
+        flex: 1;
+    }
+}

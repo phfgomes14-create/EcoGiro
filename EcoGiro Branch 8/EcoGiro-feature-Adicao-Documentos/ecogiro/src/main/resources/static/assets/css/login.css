@@ -1,0 +1,234 @@
+:root {
+    color-scheme: light;
+    --green: #2da44f;
+    --dark-green: #16863d;
+    --dark: #132b3b;
+    --text: #263743;
+    --gray: #65747e;
+    --border: #dce8df;
+    --white: #fff;
+    --shadow: 0 24px 70px rgba(19, 43, 59, .18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--text);
+    font-family: "Poppins", sans-serif;
+    background: #eef6eb;
+}
+
+.login-page {
+    position: relative;
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    padding: 88px 24px 76px;
+    isolation: isolate;
+}
+
+.login-page::before {
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    content: "";
+    background: url("../img/Papel de parede Tela login EcoGiro.jpg") center / cover no-repeat;
+}
+
+.login-page::after {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    content: "";
+    background: linear-gradient(135deg, rgba(247, 252, 244, .36), rgba(231, 244, 224, .70));
+}
+
+.brand {
+    position: absolute;
+    top: 28px;
+    left: clamp(24px, 6vw, 88px);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dark);
+    font-size: 26px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.brand img { width: 48px; height: 48px; object-fit: contain; }
+.brand-accent { color: var(--green); }
+
+.login-card {
+    width: min(100%, 460px);
+    padding: clamp(28px, 5vw, 48px);
+    border: 1px solid rgba(255, 255, 255, .8);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .96);
+    box-shadow: var(--shadow);
+}
+
+.role-switch {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-bottom: 30px;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #f4f9f3;
+}
+
+.role-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    border-radius: 8px;
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s, color .2s, box-shadow .2s;
+}
+
+.role-option:hover,
+.role-option.active {
+    background: var(--white);
+    color: var(--dark-green);
+    box-shadow: 0 4px 10px rgba(19, 43, 59, .08);
+}
+
+.role-option i { font-size: 14px; }
+
+.login-heading { margin-bottom: 30px; }
+.eyebrow {
+    color: var(--dark-green);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+}
+
+.login-heading h1 {
+    margin: 8px 0 7px;
+    color: var(--dark);
+    font-size: clamp(25px, 5vw, 32px);
+    line-height: 1.2;
+}
+
+.login-heading p, .signup-note {
+    margin: 0;
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+form { display: grid; gap: 21px; }
+.input-group { display: grid; gap: 8px; }
+label { color: var(--dark); font-size: 13px; font-weight: 600; }
+.label-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+input {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    background: #fbfdfb;
+    color: var(--dark);
+    font: inherit;
+    font-size: 14px;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.input-with-icon,
+.password-field {
+    position: relative;
+}
+
+.input-with-icon > i,
+.password-field > i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    z-index: 1;
+    color: var(--green);
+    font-size: 14px;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.input-with-icon input,
+.password-field input { padding-left: 42px; }
+
+input::placeholder { color: #9aa8a0; }
+input:focus { border-color: var(--green); background: var(--white); box-shadow: 0 0 0 3px rgba(45, 164, 79, .14); }
+.password-field input { padding-right: 52px; }
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    display: grid;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--dark-green);
+    cursor: pointer;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+}
+.password-toggle:hover { color: var(--green); }
+
+.remember-password, .signup-note a, .back-home {
+    color: var(--dark-green);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.remember-password:hover, .signup-note a:hover, .back-home:hover { text-decoration: underline; }
+
+.submit-button {
+    min-height: 52px;
+    margin-top: 3px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--green);
+    box-shadow: 0 8px 18px rgba(45, 164, 79, .2);
+    color: var(--white);
+    cursor: pointer;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background .2s, transform .2s, box-shadow .2s;
+}
+.submit-button:hover { transform: translateY(-1px); background: var(--dark-green); box-shadow: 0 10px 22px rgba(45, 164, 79, .28); }
+.submit-button:focus-visible, .password-toggle:focus-visible, a:focus-visible { outline: 3px solid rgba(12, 155, 201, .55); outline-offset: 3px; }
+
+.signup-note { margin-top: 24px; text-align: center; font-size: 12px; }
+.signup-note a { font-size: inherit; }
+.signup-secondary { margin-top: 8px; }
+.back-home { display: block; width: fit-content; margin: 25px auto 0; }
+.page-footer { position: absolute; bottom: 22px; margin: 0; color: #40584c; font-size: 11px; text-align: center; }
+
+@media (max-width: 520px) {
+    .login-page { padding: 96px 16px 72px; }
+    .brand { top: 20px; left: 20px; font-size: 23px; }
+    .brand img { width: 42px; height: 42px; }
+    .login-card { padding: 28px 22px; border-radius: 18px; }
+    .role-option { min-height: 40px; font-size: 11px; }
+    .page-footer { right: 14px; bottom: 15px; left: 14px; font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#16863d">
+    <title>Acesso administrativo | EcoGiro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+    <script src="assets/js/login.js" defer></script>
+</head>
+<body>
+    <main class="login-page admin-login-page">
+        <a class="brand" href="index.html" aria-label="EcoGiro - voltar à página inicial">
+            <img src="assets/img/icone.svg" alt="">
+            <span>Eco<span class="brand-accent">Giro</span></span>
+        </a>
+
+        <section class="login-card" aria-labelledby="admin-login-title">
+            <div class="role-switch" aria-label="Tipo de acesso">
+                <a class="role-option" href="login.html">
+                    <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    <span>Usuário</span>
+                </a>
+                <a class="role-option active" href="admin-login.html" aria-current="page">
+                    <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                    <span>Administrador</span>
+                </a>
+            </div>
+
+            <div class="login-heading">
+                <span class="eyebrow"><i class="fa-solid fa-lock" aria-hidden="true"></i> ÁREA RESTRITA</span>
+                <h1 id="admin-login-title">Acesso administrativo</h1>
+                <p>Entre no painel de gestão da EcoGiro.</p>
+            </div>
+
+            <form action="/admin/login" method="post">
+                <div class="input-group">
+                    <label for="admin-name">Nome do administrador</label>
+                    <div class="input-with-icon">
+                        <i class="fa-regular fa-id-badge" aria-hidden="true"></i>
+                        <input type="text" id="admin-name" name="name" autocomplete="name" placeholder="Seu nome completo" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="admin-email">E-mail administrativo</label>
+                    <div class="input-with-icon">
+                        <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                        <input type="email" id="admin-email" name="email" autocomplete="username" inputmode="email" placeholder="admin@ecogiro.com" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label for="admin-password">Senha</label>
+                        <a href="/esqueci-senha" class="remember-password">Esqueceu a senha?</a>
+                    </div>
+                    <div class="password-field">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <input type="password" id="admin-password" name="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+                        <button class="password-toggle" type="button" aria-controls="admin-password" aria-pressed="false" aria-label="Mostrar senha"><i class="fa-regular fa-eye" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+                <button class="submit-button" type="submit"><i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i> Entrar no painel</button>
+            </form>
+
+            <p class="signup-note">Ainda não tem acesso? <a href="admin-cadastro.html">Cadastre-se como administrador</a></p>
+            <p class="signup-note signup-secondary">Acesso de usuário? <a href="login.html">Voltar para login de usuário</a></p>
+            <a class="back-home" href="index.html">← Voltar para o início</a>
+        </section>
+
+        <p class="page-footer">© 2026 EcoGiro. Mobilidade mais leve para a cidade.</p>
+    </main>
+</body>
+</html>
