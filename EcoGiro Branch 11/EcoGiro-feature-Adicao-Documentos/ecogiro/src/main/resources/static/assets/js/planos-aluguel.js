@@ -24,21 +24,33 @@ async function load() {
       return `<article class="plan-card"><span class="plan-tag">${esc(p.vehicleCategory.replaceAll('_',' '))}</span><h3>${esc(p.name)}</h3><div class="price">${money(p.price)} <small>/ ${p.durationDays} dias</small></div><p>${esc(p.description)}</p><footer><span class="muted">${p.durationDays} dias</span><button class="btn ${pending?'btn-secondary':'btn-primary'} request-plan" data-plan="${p.id}" data-name="${esc(p.name)}" ${pending?'disabled':''}>${pending?'Solicitação pendente':'Solicitar plano'}</button></footer></article>`;
     }).join('') : '<div class="empty">Nenhum plano ativo disponível.</div>';
 
-    $('#requests-list').innerHTML = requests.length ? requests.map(r => `<article class="list-item"><div class="list-item-top"><div><h4>${esc(r.planName)}</h4><p>${fmtDate(r.requestedAt)}</p></div>${badge(r.status)}</div>${r.adminResponse?`<p><strong>Resposta:</strong> ${esc(r.adminResponse)}</p>`:''}${r.status==='PENDING'?`<p><button class="btn btn-danger btn-sm cancel-request" data-id="${r.id}">Cancelar solicitação</button></p>`:''}</article>`).join('') : '<div class="empty">Você ainda não solicitou nenhum plano.</div>';
+    $('#requests-list').innerHTML = requests.length ? requests.map(r => `<article class="list-item"><div class="list-item-top"><div><h4>${esc(r.planName)}</h4><p>Protocolo: ${esc(r.protocol || `LEGACY-${r.id}`)}${r.vehicleModel?` · ${esc(r.vehicleModel)}`:''}</p><p>${fmtDate(r.requestedAt)}</p></div>${badge(r.status)}</div>${r.adminResponse?`<p><strong>Resposta:</strong> ${esc(r.adminResponse)}</p>`:''}${r.status==='PENDING'?`<p><button class="btn btn-danger btn-sm cancel-request" data-id="${r.id}">Cancelar solicitação</button></p>`:''}</article>`).join('') : '<div class="empty">Você ainda não solicitou nenhum plano.</div>';
   } catch (err) { showToast(err.message, true); }
 }
 
 document.addEventListener('click', async (e) => {
   const btn = e.target.closest('.request-plan');
-  if (btn) { selectedPlan = Number(btn.dataset.plan); $('#request-modal-title').textContent = `Solicitar ${btn.dataset.name}`; $('#request-message').value=''; $('#request-modal').classList.add('open'); }
+  if (btn) { selectedPlan = Number(btn.dataset.plan); $('#request-modal-title').textContent = `Solicitar ${btn.dataset.name}`; $('#request-message').value=''; $('#request-modal').classList.add('open');
+    const select=$('#request-vehicle');select.replaceChildren(new Option('Carregando veículos…',''));$('#request-confirm').disabled=true;
+    const plan=selectedPlan;
+    try { const vehicles=await api(`/api/user/vehicles?planId=${plan}`);if(selectedPlan!==plan)return;
+      select.replaceChildren(new Option(vehicles.length?'Selecione um veículo':'Nenhum veículo compatível disponível',''));
+      for(const vehicle of vehicles)select.append(new Option(`${vehicle.model} — ${vehicle.code}`,vehicle.id));
+      $('#request-confirm').disabled=!vehicles.length;
+    } catch(err){if(selectedPlan!==plan)return;select.replaceChildren(new Option('Não foi possível carregar os veículos',''));showToast(err.message,true);}
+  }
   const cancel = e.target.closest('.cancel-request');
   if (cancel) { try { await api(`/api/user/requests/${cancel.dataset.id}/cancel`, {method:'POST'}); showToast('Solicitação cancelada.'); load(); } catch(err){ showToast(err.message,true); } }
 });
 $('#request-cancel').onclick = () => $('#request-modal').classList.remove('open');
 $('#request-modal').addEventListener('click', e => { if (e.target.id === 'request-modal') e.currentTarget.classList.remove('open'); });
 $('#request-confirm').onclick = async () => {
-  if (!selectedPlan) return;
-  try { await api('/api/user/requests', { method:'POST', body: JSON.stringify({ planId:selectedPlan, message:$('#request-message').value }) }); $('#request-modal').classList.remove('open'); showToast('Solicitação enviada para a administração.'); await load(); }
+  if (!selectedPlan || $('#request-confirm').disabled) return;
+  const vehicleId=Number($('#request-vehicle').value);
+  if(!vehicleId){showToast('Selecione um veículo compatível.',true);return;}
+  $('#request-confirm').disabled=true;
+  try { await api('/api/user/requests', { method:'POST', body: JSON.stringify({ planId:selectedPlan, vehicleId, message:$('#request-message').value }) }); $('#request-modal').classList.remove('open'); showToast('Solicitação enviada para a administração.'); await load(); }
   catch(err){ showToast(err.message,true); }
+  finally { $('#request-confirm').disabled=false; }
 };
 load();

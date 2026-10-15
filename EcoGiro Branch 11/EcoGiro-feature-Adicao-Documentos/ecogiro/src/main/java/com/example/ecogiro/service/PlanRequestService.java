@@ -10,24 +10,30 @@ import java.time.LocalDateTime;
 
 @Service
 public class PlanRequestService {
+    private final VehicleRepository vehicles;
+    private final PlanCompatibilityService compatibility;
     private final PlanRequestRepository requestRepository;
     private final RentalPlanRepository planRepository;
     private final UserPlanSubscriptionRepository subscriptionRepository;
 
     public PlanRequestService(PlanRequestRepository requestRepository,
                               RentalPlanRepository planRepository,
-                              UserPlanSubscriptionRepository subscriptionRepository) {
+                              UserPlanSubscriptionRepository subscriptionRepository, VehicleRepository vehicles, PlanCompatibilityService compatibility) {
+        this.vehicles=vehicles; this.compatibility=compatibility;
         this.requestRepository = requestRepository;
         this.planRepository = planRepository;
         this.subscriptionRepository = subscriptionRepository;
     }
 
     @Transactional
-    public PlanRequest requestPlan(AppUser user, Long planId, String message) {
+    public PlanRequest requestPlan(AppUser user, Long planId, Long vehicleId, String message) {
         RentalPlan plan = planRepository.findById(planId)
                 .filter(RentalPlan::isActive)
                 .orElseThrow(() -> new IllegalArgumentException("Plano indisponível."));
 
+        if(vehicleId==null) throw new IllegalArgumentException("Selecione um veículo compatível com o plano.");
+        Vehicle vehicle=vehicles.findById(vehicleId).orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado."));
+        compatibility.requireCompatible(plan,vehicle);
         if (requestRepository.existsByUserAndPlanIdAndStatus(user, planId, PlanRequestStatus.PENDING)) {
             throw new IllegalStateException("Você já possui uma solicitação pendente para este plano.");
         }
@@ -35,6 +41,7 @@ public class PlanRequestService {
         PlanRequest request = new PlanRequest();
         request.setUser(user);
         request.setPlan(plan);
+        request.setVehicle(vehicle);
         request.setUserMessage(trimTo(message, 500));
         return requestRepository.save(request);
     }
@@ -45,12 +52,15 @@ public class PlanRequestService {
             throw new IllegalArgumentException("A resposta deve ser APPROVED ou REJECTED.");
         }
 
-        PlanRequest request = requestRepository.findById(requestId)
+        PlanRequest request = requestRepository.lockById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Solicitação não encontrada."));
         if (request.getStatus() != PlanRequestStatus.PENDING) {
             throw new IllegalStateException("Esta solicitação já foi respondida.");
         }
 
+        // Solicitações antigas sem veículo preservam o fluxo anterior.
+        if(newStatus==PlanRequestStatus.APPROVED && request.getVehicle()!=null)
+            compatibility.requireCompatible(request.getPlan(),request.getVehicle());
         request.setStatus(newStatus);
         request.setAdminResponse(trimTo(response, 500));
         request.setRespondedBy(admin);
@@ -75,7 +85,7 @@ public class PlanRequestService {
 
     @Transactional
     public PlanRequest cancel(Long requestId, AppUser user) {
-        PlanRequest request = requestRepository.findById(requestId)
+        PlanRequest request = requestRepository.lockById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Solicitação não encontrada."));
         if (!request.getUser().getId().equals(user.getId())) throw new IllegalArgumentException("Solicitação inválida.");
         if (request.getStatus() != PlanRequestStatus.PENDING) throw new IllegalStateException("Apenas solicitações pendentes podem ser canceladas.");

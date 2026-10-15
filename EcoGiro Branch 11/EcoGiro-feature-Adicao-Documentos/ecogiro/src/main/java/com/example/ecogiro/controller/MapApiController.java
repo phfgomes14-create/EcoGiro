@@ -14,14 +14,18 @@ import java.util.List;
 @RequestMapping("/api/map")
 public class MapApiController {
     private final VehicleRepository vehicleRepository;
+    private final com.example.ecogiro.service.TerritoryAccessService access;
 
-    public MapApiController(VehicleRepository vehicleRepository) {
-        this.vehicleRepository = vehicleRepository;
+    public MapApiController(VehicleRepository vehicleRepository, com.example.ecogiro.service.TerritoryAccessService access) {
+        this.vehicleRepository = vehicleRepository; this.access=access;
     }
 
     @GetMapping("/vehicles")
-    public List<VehicleMapView> vehicles() {
+    @org.springframework.transaction.annotation.Transactional(readOnly=true)
+    public List<VehicleMapView> vehicles(org.springframework.security.core.Authentication auth) {
+        var actor=access.actor(auth);
         return vehicleRepository.findAllByOrderByLocationNameAscCodeAsc().stream()
+                .filter(v -> actor.getRole()!=com.example.ecogiro.model.Role.ADMIN_SETORIAL || access.permits(actor,v.getStore()))
                 .filter(v -> v.getStatus() != VehicleStatus.INACTIVE)
                 .map(VehicleMapView::from)
                 .toList();

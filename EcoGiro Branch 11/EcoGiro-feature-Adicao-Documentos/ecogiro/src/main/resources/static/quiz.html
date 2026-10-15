@@ -69,6 +69,7 @@
   </div>
 </main>
 
+<script src="assets/js/recommendation-rules.js"></script>
 <script>
   // 1. Perguntas — cada opção aponta para um perfil de veículo
   const questions = [
@@ -207,9 +208,7 @@
 
   // 4. Cálculo: ranking de perfis pela contagem de respostas
   function calculateRanking() {
-    const scores = { moto: 0, bicicleta: 0, ebike: 0, patinete: 0 };
-    answers.forEach(a => scores[a.profile]++);
-    return Object.entries(scores).sort((a, b) => b[1] - a[1]).map(e => e[0]);
+    return EcoGiroRecommendationRules.rank(answers);
   }
 
   function showResult() {

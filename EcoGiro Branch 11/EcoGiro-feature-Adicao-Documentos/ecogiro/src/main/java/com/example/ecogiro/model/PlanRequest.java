@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "TB_SOLICITACAO_PLANO")
+@Table(name = "TB_SOLICITACAO_PLANO", uniqueConstraints = @UniqueConstraint(name = "uk_solicitacao_protocolo", columnNames = "protocol"))
 public class PlanRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +36,21 @@ public class PlanRequest {
     private LocalDateTime requestedAt = LocalDateTime.now();
 
     private LocalDateTime respondedAt;
+
+    // Nullable para preservar registros anteriores durante a atualização de esquema.
+    @Column(length = 36, updatable = false)
+    private String protocol;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "veiculo_id")
+    private Vehicle vehicle;
+
+    @PrePersist
+    void generateProtocol() { protocol = java.util.UUID.randomUUID().toString(); }
+
+    public String getProtocol() { return protocol == null && id != null ? "LEGACY-" + id : protocol; }
+    public Vehicle getVehicle() { return vehicle; }
+    public void setVehicle(Vehicle vehicle) { this.vehicle = vehicle; }
 
     public Long getId() { return id; }
     public AppUser getUser() { return user; }

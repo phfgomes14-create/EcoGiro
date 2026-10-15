@@ -59,7 +59,7 @@ public class AuthController {
             return;
         }
         try {
-            authService.register(fullName, cpf, age, email, password, Role.ADMIN);
+            authService.register(fullName, cpf, age, email, password, Role.ADMIN_SETORIAL);
             response.sendRedirect("/admin-login.html?registered=1");
         } catch (IllegalArgumentException ex) {
             response.sendRedirect("/admin-cadastro.html?error=" + urlCode(ex.getMessage()));
@@ -87,7 +87,9 @@ public class AuthController {
             SecurityContextHolder.setContext(context);
             HttpSessionSecurityContextRepository contextRepository = new HttpSessionSecurityContextRepository();
             contextRepository.saveContext(context, request, response);
-            response.sendRedirect("/admin.html");
+            boolean isSectorial = authentication.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN_SETORIAL"));
+            response.sendRedirect(isSectorial ? "/admin-setorial.html" : "/admin.html");
         } catch (AuthenticationException ex) {
             response.sendRedirect("/admin-login.html?error=1");
         }
