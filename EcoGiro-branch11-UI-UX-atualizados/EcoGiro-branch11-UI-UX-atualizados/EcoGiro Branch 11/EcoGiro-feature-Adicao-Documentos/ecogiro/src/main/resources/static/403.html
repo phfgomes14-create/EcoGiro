@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso negado | EcoGiro</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #f4fff8, #e8f7ee);
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 560px;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 48px 36px;
+            text-align: center;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.10);
+        }
+
+        .status {
+            font-size: 72px;
+            font-weight: 800;
+            color: #198754;
+            line-height: 1;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 14px;
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 13px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform .15s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .primary {
+            background: #198754;
+            color: white;
+        }
+
+        .secondary {
+            background: #eef2f3;
+            color: #374151;
+        }
+
+        .brand {
+            margin-top: 34px;
+            font-weight: 700;
+            color: #0c9bc9;
+        }
+
+        .brand span:last-child {
+            color: #2da44f;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="card">
+        <div class="status">403</div>
+
+        <h1>Acesso negado</h1>
+
+        <p>
+            Sua conta não possui permissão para acessar esta área do EcoGiro.
+            Volte para sua página anterior ou retorne à página inicial.
+        </p>
+
+        <div class="buttons">
+            <a href="javascript:history.back()" class="button primary">
+                Voltar
+            </a>
+
+            <a href="/" class="button secondary">
+                Página inicial
+            </a>
+        </div>
+
+        <div class="brand"><span>Eco</span><span>Giro</span></div>
+    </main>
+</body>
+</html>

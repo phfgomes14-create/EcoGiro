@@ -1,0 +1,133 @@
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px clamp(18px, 5vw, 72px);
+    background: rgba(255, 255, 255, .96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #dfe8e2;
+}
+
+.app-header .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--blue);
+    text-decoration: none;
+}
+
+.app-header .brand img {
+    width: 38px;
+    height: 38px;
+}
+
+.app-header .brand span span {
+    color: var(--green);
+}
+
+.app-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.app-nav a {
+    padding: 10px 11px;
+    border-radius: 10px;
+    color: #3d4b42;
+    font-size: .86rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease;
+}
+
+.app-nav a:hover {
+    background: rgba(12, 155, 201, .10);
+    color: #075b78;
+}
+
+.app-nav a.active {
+    background: rgba(12, 155, 201, .18);
+    color: #075b78;
+    font-weight: 700;
+    box-shadow: inset 0 0 0 1px rgba(12, 155, 201, .38);
+}
+
+.app-nav a.active:hover {
+    background: rgba(12, 155, 201, .25);
+    color: #064b62;
+}
+
+.app-nav a.login-link {
+    margin-left: 16px;
+    background: #16863d;
+    color: #fff;
+}
+
+.app-nav a.login-link:hover {
+    background: #0c5c29;
+    color: #fff;
+}
+
+.app-header a:focus-visible,
+.menu-toggle:focus-visible {
+    outline: 3px solid rgba(12, 155, 201, .4);
+    outline-offset: 3px;
+}
+
+.menu-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #dfe8e2;
+    border-radius: 10px;
+    background: #fff;
+    color: #17201b;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 1100px) {
+    .app-header {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .menu-toggle {
+        display: inline-grid;
+        place-items: center;
+        margin-left: auto;
+    }
+
+    .app-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 3px;
+        padding-top: 6px;
+        border-top: 1px solid #dfe8e2;
+    }
+
+    .app-nav.is-open {
+        display: flex;
+    }
+
+    .app-nav a {
+        padding: 11px 12px;
+    }
+
+    .app-nav a.login-link {
+        margin: 5px 0 0;
+        text-align: center;
+    }
+}
+

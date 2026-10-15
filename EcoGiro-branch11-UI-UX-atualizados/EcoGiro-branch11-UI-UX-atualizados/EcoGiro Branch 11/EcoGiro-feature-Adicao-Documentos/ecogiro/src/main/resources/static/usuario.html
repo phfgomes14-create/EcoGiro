@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha conta | EcoGiro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <script src="assets/js/usuario.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+    <header class="app-header">
+        <a class="brand" href="index.html"><img src="assets/img/icone.svg" alt=""><span>Eco<span>Giro</span></span></a>
+        <nav class="app-nav">
+            <a class="active" href="usuario.html">Minha conta</a><a href="planos-aluguel.html">Planos</a><a href="mapa.html">Mapa</a><a href="quiz.html">Recomendação</a>
+            <form action="/logout" method="post"><button class="nav-button" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</button></form>
+        </nav>
+    </header>
+    <main class="app-main">
+        <section class="hero-panel"><span class="eyebrow">// Área do usuário</span><h1>Olá, <span id="user-first-name">...</span></h1><p>Acompanhe seu plano, suas solicitações e o histórico de recomendações da EcoGiro.</p><div class="hero-actions"><a class="btn btn-primary" href="planos-aluguel.html"><i class="fa-solid fa-ticket"></i> Escolher um plano</a><a class="btn btn-secondary" href="mapa.html"><i class="fa-solid fa-location-dot"></i> Ver veículos no mapa</a></div></section>
+        <section class="stats-grid">
+            <div class="stat-card"><span>Plano atual</span><strong id="stat-plan">—</strong></div>
+            <div class="stat-card"><span>Solicitações</span><strong id="stat-requests">0</strong></div>
+            <div class="stat-card"><span>Pendentes</span><strong id="stat-pending">0</strong></div>
+            <div class="stat-card"><span>Recomendações</span><strong id="stat-recommendations">0</strong></div>
+        </section>
+        <div class="content-grid">
+            <div>
+                <section class="card"><div class="card-header"><div><h2>Seu plano</h2><p>Plano aprovado e atualmente vinculado à sua conta.</p></div></div><div id="active-subscription" class="empty">Carregando...</div></section>
+                <section class="card"><div class="card-header"><div><h2>Solicitações de plano</h2><p>Aqui aparecem as respostas da administração.</p></div><a class="btn btn-secondary btn-sm" href="planos-aluguel.html">Novo pedido</a></div><div id="request-list" class="list"><div class="empty">Carregando...</div></div></section>
+            </div>
+            <div>
+                <section class="card"><div class="card-header"><div><h2>Dados da conta</h2><p>Informações associadas ao seu cadastro.</p></div></div><div id="profile-list" class="profile-list"></div></section>
+                <section class="card"><div class="card-header"><div><h2>Últimas recomendações</h2><p>Resultados salvos pelo Motor de Recomendação.</p></div><a class="btn btn-secondary btn-sm" href="quiz.html">Refazer quiz</a></div><div id="recommendation-list" class="list"><div class="empty">Nenhuma recomendação salva.</div></div></section>
+            </div>
+        </div>
+    </main>
+</div><div id="toast" class="toast"></div>
+</body></html>

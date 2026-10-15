@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Planos de aluguel | EcoGiro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/dashboard.css"><script src="assets/js/planos-aluguel.js" defer></script>
+</head>
+<body><div class="app-shell">
+<header class="app-header"><a class="brand" href="index.html"><img src="assets/img/icone.svg" alt=""><span>Eco<span>Giro</span></span></a><nav class="app-nav"><a href="usuario.html">Minha conta</a><a class="active" href="planos-aluguel.html">Planos</a><a href="mapa.html">Mapa</a><a href="quiz.html">Recomendação</a><form action="/logout" method="post"><button class="nav-button" type="submit">Sair</button></form></nav></header>
+<main class="app-main"><section class="hero-panel"><span class="eyebrow">// Planos EcoGiro</span><h1>Escolha como você quer se mover</h1><p>Selecione um plano. A solicitação será enviada à administração e você acompanha a resposta diretamente na sua conta.</p></section>
+<div id="plan-notice" style="margin-top:22px"></div><div class="section-title"><span>Planos disponíveis</span><h2>Solicite seu plano de aluguel</h2></div><section id="plans-grid" class="plans-grid"><div class="empty">Carregando planos...</div></section>
+<div class="section-title"><span>Acompanhamento</span><h2>Minhas solicitações</h2></div><section class="card"><div id="requests-list" class="list"><div class="empty">Carregando...</div></div></section></main></div>
+<div id="request-modal" class="modal"><div class="modal-card"><h3 id="request-modal-title">Solicitar plano</h3><p class="muted">Se quiser, deixe uma observação para a equipe EcoGiro.</p><div class="field"><label for="request-message">Observação</label><textarea id="request-message" maxlength="500" placeholder="Ex.: preciso do plano para deslocamento diário ao trabalho."></textarea></div><div class="form-actions"><button class="btn btn-secondary" id="request-cancel" type="button">Cancelar</button><button class="btn btn-primary" id="request-confirm" type="button">Enviar solicitação</button></div></div></div><div id="toast" class="toast"></div>
+</body></html>
