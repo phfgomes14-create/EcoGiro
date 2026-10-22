@@ -9,14 +9,14 @@
 * ## Equipe do Projeto
 
 * **Integrantes:**
-* - Alessandro Falcão Zovico
-* - Arthur Cauã Machado De Souza
-* - Cauã Alves Fernandes
-* - Edna Júlia Menezes Marques
-* - Lucas Ibiapina De Morais
-* - Pedro Henrique Ferreira Gomes
-* - Sophia Fonseca Mandovano Moreira de Azevedo
-* - Yudi Fidelis De Morais
+* Alessandro Falcão Zovico
+* Arthur Cauã Machado De Souza
+* Cauã Alves Fernandes
+* Edna Júlia Menezes Marques
+* Lucas Ibiapina De Morais
+* Pedro Henrique Ferreira Gomes
+* Sophia Fonseca Mandovano Moreira de Azevedo
+* Yudi Fidelis De Morais
 
 ---
 
