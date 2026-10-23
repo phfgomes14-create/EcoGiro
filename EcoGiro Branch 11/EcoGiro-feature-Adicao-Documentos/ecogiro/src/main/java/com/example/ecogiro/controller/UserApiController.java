@@ -15,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 public class UserApiController {
+    private final VehicleRepository vehicles;
+    private final com.example.ecogiro.service.PlanCompatibilityService compatibility;
     private final AuthService authService;
     private final RentalPlanRepository planRepository;
     private final PlanRequestRepository requestRepository;
@@ -27,7 +29,8 @@ public class UserApiController {
                              PlanRequestRepository requestRepository,
                              UserPlanSubscriptionRepository subscriptionRepository,
                              RecommendationRepository recommendationRepository,
-                             PlanRequestService requestService) {
+                             PlanRequestService requestService, VehicleRepository vehicles, com.example.ecogiro.service.PlanCompatibilityService compatibility) {
+        this.vehicles=vehicles;this.compatibility=compatibility;
         this.authService = authService;
         this.planRepository = planRepository;
         this.requestRepository = requestRepository;
@@ -46,6 +49,16 @@ public class UserApiController {
         return planRepository.findByActiveTrueOrderByPriceAsc().stream().map(PlanView::from).toList();
     }
 
+    public record CompatibleVehicle(Long id,String code,String model,String type) {}
+    @GetMapping("/vehicles")
+    public List<CompatibleVehicle> compatibleVehicles(@RequestParam Long planId) {
+        RentalPlan plan=planRepository.findById(planId).filter(RentalPlan::isActive)
+            .orElseThrow(() -> new IllegalArgumentException("Plano indisponível."));
+        return vehicles.findByStatusOrderByLocationNameAsc(VehicleStatus.AVAILABLE).stream()
+            .filter(v -> compatibility.accepts(plan.getVehicleCategory(),v.getType()))
+            .map(v -> new CompatibleVehicle(v.getId(),v.getCode(),v.getModel(),v.getType().name())).toList();
+    }
+
     @GetMapping("/requests")
     public List<RequestView> requests(Authentication authentication) {
         return requestRepository.findByUserOrderByRequestedAtDesc(current(authentication)).stream()
@@ -53,9 +66,9 @@ public class UserApiController {
     }
 
     @PostMapping("/requests")
-    public RequestView requestPlan(@RequestBody NewRequest body, Authentication authentication) {
+    public RequestView requestPlan(@jakarta.validation.Valid @RequestBody com.example.ecogiro.dto.PlanRequestInput body, Authentication authentication) {
         if (body.planId() == null) throw new IllegalArgumentException("Selecione um plano.");
-        return RequestView.from(requestService.requestPlan(current(authentication), body.planId(), body.message()));
+        return RequestView.from(requestService.requestPlan(current(authentication), body.planId(), body.vehicleId(), body.message()));
     }
 
     @PostMapping("/requests/{id}/cancel")
@@ -79,7 +92,6 @@ public class UserApiController {
         return authService.requireUser(authentication.getName());
     }
 
-    public record NewRequest(Long planId, String message) {}
 
     public record UserView(Long id, String fullName, String cpf, Integer age, String email, String role, boolean active, LocalDateTime createdAt) {
         static UserView from(AppUser user) {
@@ -96,9 +108,9 @@ public class UserApiController {
         }
     }
 
-    public record RequestView(Long id, Long planId, String planName, String status, String userMessage, String adminResponse, LocalDateTime requestedAt, LocalDateTime respondedAt) {
+    public record RequestView(Long id, Long planId, String planName, String status, String userMessage, String adminResponse, LocalDateTime requestedAt, LocalDateTime respondedAt, String protocol, Long vehicleId, String vehicleModel) {
         static RequestView from(PlanRequest request) {
-            return new RequestView(request.getId(), request.getPlan().getId(), request.getPlan().getName(), request.getStatus().name(), request.getUserMessage(), request.getAdminResponse(), request.getRequestedAt(), request.getRespondedAt());
+            return new RequestView(request.getId(), request.getPlan().getId(), request.getPlan().getName(), request.getStatus().name(), request.getUserMessage(), request.getAdminResponse(), request.getRequestedAt(), request.getRespondedAt(), request.getProtocol(), request.getVehicle()==null?null:request.getVehicle().getId(), request.getVehicle()==null?null:request.getVehicle().getModel());
         }
     }
 

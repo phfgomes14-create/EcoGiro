@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfig {
@@ -30,7 +31,15 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf
+                // Mantem compatibilidade com formularios antigos; protege novas escritas setoriais.
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .requireCsrfProtectionMatcher(request ->
+                    "POST".equalsIgnoreCase(request.getMethod())
+                    && (request.getRequestURI().equals("/api/admin/redistribution-proposals")
+                        || request.getRequestURI().startsWith("/api/admin/redistribution-proposals/")
+                        || request.getRequestURI().startsWith("/api/admin/operations/")))
+            )
 
             .headers(headers ->
                 headers.frameOptions(frame -> frame.sameOrigin())
@@ -58,11 +67,29 @@ public class SecurityConfig {
                     "/favicon.ico"
                 ).permitAll()
 
-                // Rotas exclusivas de ADMIN
-                .requestMatchers(
-                    "/admin.html",
-                    "/api/admin/**"
-                ).hasRole(Role.ADMIN.name())
+                .requestMatchers("/operacao.html", "/api/admin/operations/**")
+                .hasAnyAuthority("ROLE_ADMIN_GERAL", "ROLE_ADMIN_SETORIAL", "ROLE_ADMIN_LEGACY")
+
+                // Setores: leitura do proprio territorio para ADMIN_SETORIAL.
+                .requestMatchers("/api/admin/sectors")
+                .hasAnyAuthority("ROLE_ADMIN_GERAL", "ROLE_ADMIN_SETORIAL")
+
+                // Propostas e distribuicao: apenas administrador geral.
+                .requestMatchers("/api/admin/redistribution-proposals/**",
+                                 "/api/admin/redistribution-proposals",
+                                 "/api/admin/sector-distribution/**")
+                .hasAuthority("ROLE_ADMIN_GERAL")
+
+                // Mapa administrativo dedicado, inclusive para contas legadas.
+                .requestMatchers("/mapa-admin.html", "/estoque.html")
+                .hasAnyAuthority("ROLE_ADMIN_GERAL", "ROLE_ADMIN_SETORIAL", "ROLE_ADMIN_LEGACY")
+
+                // Painel setorial dedicado: nao oferece operacoes globais.
+                .requestMatchers("/admin-setorial.html").hasAuthority("ROLE_ADMIN_SETORIAL")
+
+                // Painel legado ainda mostra dados globais: bloquear ADMIN_SETORIAL.
+                .requestMatchers("/admin.html", "/api/admin/**")
+                .hasAnyAuthority("ROLE_ADMIN_GERAL", "ROLE_ADMIN_LEGACY")
 
                 // Rotas exclusivas de USER
                 .requestMatchers(
@@ -74,6 +101,7 @@ public class SecurityConfig {
                 // Rotas compartilhadas entre usuários autenticados
                 .requestMatchers(
                     "/mapa.html",
+                    "/api/session/profile",
                     "/api/map/**"
                 ).authenticated()
 

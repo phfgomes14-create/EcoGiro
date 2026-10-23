@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminApiController {
+    private final com.example.ecogiro.service.PlanCompatibilityService compatibility;
     private final AppUserRepository userRepository;
     private final RentalPlanRepository planRepository;
     private final PlanRequestRepository requestRepository;
@@ -28,7 +29,8 @@ public class AdminApiController {
                               VehicleRepository vehicleRepository,
                               UserPlanSubscriptionRepository subscriptionRepository,
                               PlanRequestService requestService,
-                              AuthService authService) {
+                              AuthService authService, com.example.ecogiro.service.PlanCompatibilityService compatibility) {
+        this.compatibility=compatibility;
         this.userRepository = userRepository;
         this.planRepository = planRepository;
         this.requestRepository = requestRepository;
@@ -123,8 +125,9 @@ public class AdminApiController {
     }
 
     @PutMapping("/vehicles/{id}")
+    @org.springframework.transaction.annotation.Transactional
     public AdminVehicleView updateVehicle(@PathVariable Long id, @RequestBody VehiclePayload body) {
-        Vehicle vehicle = vehicleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado."));
+        Vehicle vehicle = vehicleRepository.lockById(id).orElseThrow(() -> new IllegalArgumentException("Veículo não encontrado."));
         vehicleRepository.findByCodeIgnoreCase(body.code() == null ? "" : body.code().trim())
                 .filter(existing -> !existing.getId().equals(id))
                 .ifPresent(existing -> { throw new IllegalArgumentException("Código de veículo já cadastrado."); });
@@ -137,6 +140,7 @@ public class AdminApiController {
         if (body.description() == null || body.description().isBlank()) throw new IllegalArgumentException("Descrição do plano é obrigatória.");
         if (body.price() == null || body.price().signum() < 0) throw new IllegalArgumentException("Preço inválido.");
         if (body.durationDays() == null || body.durationDays() < 1) throw new IllegalArgumentException("Duração inválida.");
+        compatibility.requireKnownCategory(body.vehicleCategory()==null || body.vehicleCategory().isBlank()?"TODOS":body.vehicleCategory());
         plan.setName(body.name().trim());
         plan.setDescription(body.description().trim());
         plan.setPrice(body.price());
@@ -182,10 +186,10 @@ public class AdminApiController {
     }
 
     public record AdminRequestView(Long id, Long userId, String userName, String userEmail, Long planId, String planName,
-                                   String status, String userMessage, String adminResponse, LocalDateTime requestedAt, LocalDateTime respondedAt) {
+                                   String status, String userMessage, String adminResponse, LocalDateTime requestedAt, LocalDateTime respondedAt, String protocol, Long vehicleId, String vehicleModel) {
         static AdminRequestView from(PlanRequest request) {
             return new AdminRequestView(request.getId(), request.getUser().getId(), request.getUser().getFullName(), request.getUser().getEmail(),
-                    request.getPlan().getId(), request.getPlan().getName(), request.getStatus().name(), request.getUserMessage(), request.getAdminResponse(), request.getRequestedAt(), request.getRespondedAt());
+                    request.getPlan().getId(), request.getPlan().getName(), request.getStatus().name(), request.getUserMessage(), request.getAdminResponse(), request.getRequestedAt(), request.getRespondedAt(), request.getProtocol(), request.getVehicle()==null?null:request.getVehicle().getId(), request.getVehicle()==null?null:request.getVehicle().getModel());
         }
     }
 

@@ -26,4 +26,34 @@ function render(){
 }
 $('#map-filter').addEventListener('click', e=>{ const btn=e.target.closest('button[data-type]'); if(!btn)return; $('#map-filter').querySelectorAll('button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentFilter=btn.dataset.type; render(); });
 function showToast(message,error=false){const el=$('#toast');el.textContent=message;el.className='toast show'+(error?' error':'');setTimeout(()=>el.className='toast',3500)}
-loadVehicles();
+// O perfil vem da sessão, nunca de tentativas de acesso a APIs administrativas.
+async function configureMapNavigation() {
+  try {
+    const response = await fetch('/api/session/profile', {
+      credentials: 'same-origin', headers: { Accept: 'application/json' }
+    });
+    if (response.status === 401 || response.redirected) {
+      window.location.replace(document.body.dataset.mapProfile === 'ADMIN'
+        ? '/admin-login.html' : '/login.html');
+      return;
+    }
+    if (!response.ok) throw new Error('Não foi possível identificar o perfil da conta.');
+    const { role } = await response.json();
+    const isAdmin = ['ADMIN', 'ADMIN_GERAL', 'ADMIN_SETORIAL'].includes(role);
+    if (!isAdmin && role !== 'USER') throw new Error('Perfil de conta não reconhecido.');
+    const target = isAdmin ? 'ADMIN' : 'USER';
+    if (document.body.dataset.mapProfile !== target) {
+      window.location.replace(isAdmin ? '/mapa-admin.html' : '/mapa.html');
+      return;
+    }
+    if (role === 'ADMIN_SETORIAL') {
+      const link = document.getElementById('map-account-link');
+      link.href = 'admin-setorial.html';
+      link.textContent = 'Meus setores';
+    }
+    await loadVehicles();
+  } catch (error) {
+    showToast(error.message || 'Não foi possível identificar o perfil da conta.', true);
+  }
+}
+configureMapNavigation();

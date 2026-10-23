@@ -36,6 +36,13 @@ public class Vehicle {
     @Column(nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private EcoGiroStore store;
+
+    public EcoGiroStore getStore() { return store; }
+    public void setStore(EcoGiroStore store) { this.store = store; }
+
     @PreUpdate
     public void touch() { updatedAt = LocalDateTime.now(); }
 

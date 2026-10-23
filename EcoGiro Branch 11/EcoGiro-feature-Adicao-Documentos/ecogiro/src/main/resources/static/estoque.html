@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estoque por localização | EcoGiro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="assets/css/estoque.css" />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      crossorigin=""
+    ></script>
+    <script src="assets/js/estoque.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <a class="brand" href="index.html">
+          <img src="assets/img/icone.svg" alt="" />
+          <span>Eco<span>Giro</span></span>
+        </a>
+        <nav class="app-nav">
+          <a id="admin-home" href="admin.html">Administração</a>
+          <a class="active" href="estoque.html">Estoque por localização</a>
+          <a href="mapa-admin.html">Mapa</a>
+          <a href="index.html">Site</a>
+          <form action="/logout" method="post">
+            <button class="nav-button" type="submit">Sair</button>
+          </form>
+        </nav>
+      </header>
+
+      <main class="app-main">
+        <section class="hero-panel">
+          <span class="eyebrow">// Operação de frota</span>
+          <h1>Estoque por localização</h1>
+          <p>
+            Localize veículos no mapa, selecione uma localização sob sua
+            responsabilidade e atualize a disponibilidade da frota.
+          </p>
+        </section>
+
+        <section class="inventory-toolbar card">
+          <div class="field">
+            <label for="sector-select">Localização da frota</label>
+            <select id="sector-select">
+              <option value="ALL">Todas as localizações</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="type-filter">Tipo de veículo</label>
+            <select id="type-filter">
+              <option value="ALL">Todos os tipos</option>
+              <option value="MOTO">Motos</option>
+              <option value="BIKE">Bicicletas</option>
+              <option value="E_BIKE">Bicicletas elétricas</option>
+              <option value="SCOOTER">Patinetes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="status-filter">Disponibilidade</label>
+            <select id="status-filter">
+              <option value="ALL">Todos os status</option>
+              <option value="AVAILABLE">Disponíveis</option>
+              <option value="RENTED">Alugados</option>
+              <option value="MAINTENANCE">Manutenção</option>
+              <option value="INACTIVE">Inativos</option>
+            </select>
+          </div>
+          <button id="refresh-inventory" class="btn btn-secondary">
+            <i class="fa-solid fa-rotate"></i> Atualizar
+          </button>
+        </section>
+
+        <section class="inventory-stats">
+          <article class="stat-card">
+            <span>Veículos no setor</span>
+            <strong id="sector-total">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Disponíveis</span>
+            <strong id="sector-available">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Alugados</span>
+            <strong id="sector-rented">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Manutenção</span>
+            <strong id="sector-maintenance">0</strong>
+          </article>
+        </section>
+
+        <div class="inventory-layout">
+          <section class="card">
+            <div class="card-header">
+              <div>
+                <h2>Mapa do estoque</h2>
+                <p id="inventory-caption">Carregando frota...</p>
+              </div>
+            </div>
+            <div
+              id="inventory-map"
+              aria-label="Mapa da frota por setor"
+            ></div>
+          </section>
+
+          <section class="card">
+            <div class="card-header">
+              <div>
+                <h2>Controle de estoque</h2>
+                <p>Atualize o status ou transfira para uma loja autorizada.</p>
+              </div>
+            </div>
+            <div id="inventory-list" class="inventory-list">
+              <div class="empty">Carregando...</div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div id="toast" class="toast"></div>
+  </body>
+</html>
