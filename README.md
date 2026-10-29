@@ -196,8 +196,12 @@ ecogiro/
 
 ## Capturas de Tela
 
-* **Tela Principal (Landing Page):** `[ Inserir imagem da landing page aqui ]`
-* **Quiz de Recomendação:** `[ Inserir imagem da tela do quiz aqui ]`
+* **Tela Principal (Landing Page):** <img width="1886" height="910" alt="Captura de tela 2026-10-29 103942" src="https://github.com/user-attachments/assets/dc74dd92-698b-4bae-b228-4207a29818c3" />
+
+* **Quiz de Recomendação:** <img width="1886" height="932" alt="Captura de tela 2026-10-29 104019" src="https://github.com/user-attachments/assets/aa83042c-0089-4a74-84da-a7021a0b269b" />
+                            <img width="1879" height="937" alt="Captura de tela 2026-10-29 104435" src="https://github.com/user-attachments/assets/8094f959-1be5-452f-b14f-1859b9a16ffa" />
+
+  
 * **Banco de Dados H2:** `[ Inserir imagem do H2 Console com os registros gravados aqui ]`
 
 ---
