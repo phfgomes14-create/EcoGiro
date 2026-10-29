@@ -61,7 +61,7 @@ Desenvolver uma solução full stack para recomendar e facilitar o acesso a moda
 * Spring Boot (Spring Web, Spring Data JPA)
 
 ### Banco de Dados
-* H2 Database (Banco em memória)
+* NEON
 
 ---
 
