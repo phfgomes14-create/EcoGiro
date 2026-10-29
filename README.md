@@ -20,193 +20,67 @@
 
 ---
 
-## Descrição
+## Aplicação atual — branch 11
 
-O **EcoGiro** é uma plataforma digital de mobilidade sustentável que conecta usuários a opções flexíveis de transporte alternativo urbano, como bicicletas convencionais, bicicletas elétricas (e-bikes), patinetes elétricos e motocicletas. O sistema conta com um motor de recomendação inteligente que auxilia o usuário a escolher o veículo ideal com base em seu perfil de deslocamento e restrições operacionais.
+- Site: [EcoGiro no Render](https://ecogiro.onrender.com/)
+- [Login administrativo](https://ecogiro.onrender.com/admin-login.html)
+- Aplicativo: `EcoGiro Branch 11/EcoGiro-feature-Adicao-Documentos/ecogiro`
+- Java 21, Gradle Wrapper, Spring Boot, Security, JPA e Validation.
+- H2 para desenvolvimento/testes; PostgreSQL/Neon no ambiente publicado.
 
----
+## Documentação para o time
 
-## Objetivos
+| Documento | Conteúdo |
+| --- | --- |
+| [Auditoria das tarefas](docs/AUDITORIA_BACKLOG_20261015.md) | BL03, BL05, BL22, BL23, BL29 e BL30; entregas, testes e decisões |
+| [Modelo de dados](docs/MODELO_DE_DADOS.md) | DER, dez entidades, chaves, enumerações e dicionário de dados |
+| [Regras de recomendação](docs/REGRAS_RECOMENDACAO.md) | Matriz, desempate, justificativas, entradas/saídas e limites |
+| [Operação territorial](OPERACAO_TERRITORIAL.md) | Perfis, lojas, frota, propostas e homologação |
+| [Integração da branch 11](INTEGRACAO_BRANCH11.md) | Histórico de integração e deploy |
+| [Histórico da branch 10](HISTORICO_BACKEND_BRANCH10.md) | Entregas anteriores |
 
-### Objetivo Geral
-Desenvolver uma solução full stack para recomendar e facilitar o acesso a modalidades de transporte sustentável, promovendo escolhas mais conscientes e eficientes para o deslocamento urbano.
+## Funcionalidades implementadas
 
-### Problemas que o sistema resolve
-* **Dificuldade na escolha do transporte ideal:** Dúvidas do usuário em relação à autonomia, necessidade de CNH, custos e esforço físico necessário para cada tipo de veículo.
-* **Barreira de entrada para uso de veículos ecológicos:** Falta de clareza sobre planos de contratação e adequação ao uso diário ou profissional.
+Cadastro e login separados para usuário e administrador; sessão, BCrypt e permissões por papel. Usuário consulta planos, solicita contratação escolhendo veículo compatível, acompanha protocolo, resposta e assinatura. Administração geral gerencia usuários, planos e frota. Administrador setorial opera o território atribuído. Há mapas distintos, lojas, capacidade, bloqueio manual e redistribuição por proposta/aprovação.
 
----
+O quiz calcula um ranking de preferências no JavaScript compartilhado e testado; `POST /api/recommendations` persiste o histórico. O backend não recalcula esse ranking. As regras de compatibilidade de contratação são verificadas separadamente no servidor e não confiam na recomendação enviada pelo cliente.
 
-## Funcionalidades
+## Execução local
 
-* **Landing Page Institucional:** Apresentação da plataforma, catálogo de frotas, tabela de planos, benefícios e seção de dúvidas frequentes (FAQ).
-* **Motor de Recomendação (Quiz de Mobilidade):** Formulário interativo que processa dados de distância, nível de esforço desejado, finalidade de uso, posse de CNH e orçamento.
-* **Algoritmo de Recomendação no Backend:** Processamento dos dados no Java/Spring Boot para indicar o veículo principal e uma alternativa secundária.
-* **Persistência de Histórico:** Salvamento das respostas do formulário e das recomendações geradas no banco de dados.
-* **Modal de Contato/Suporte:** Interface para envio de dúvidas e mensagens de suporte.
+Instale JDK 21. Dentro do diretório do aplicativo:
 
----
+```bash
+bash gradlew test bootJar --no-daemon
+bash gradlew bootRun
+```
 
-## Tecnologias Utilizadas
+No Windows, use `gradlew.bat test bootJar` e `gradlew.bat bootRun`. Acesse `http://localhost:8080/` (ou a porta definida por PORT). Não é necessário instalar Maven.
 
-### Front-end
-* HTML5
-* CSS3
-* JavaScript (ES6+)
-* jQuery (v4.0.0)
-* FontAwesome (v7.3.1)
+Na raiz do repositório, com Node 22:
 
-### Back-end
-* Java
-* Spring Boot (Spring Web, Spring Data JPA)
+```bash
+node --test tests/*.test.cjs
+```
 
-### Banco de Dados
-* H2 Database (Banco em memória)
+## Configuração
 
----
+Consulte `src/main/resources/application.properties`. Produção utiliza SPRING_DATASOURCE_URL (JDBC), SPRING_DATASOURCE_USERNAME e SPRING_DATASOURCE_PASSWORD. ADMIN_REGISTRATION_CODE é configurado no ambiente do servidor. Não publique senhas, tokens ou URLs com credenciais.
 
-## Arquitetura da Solução
+O Dockerfile utiliza Java 21. O Render hospeda o Spring Boot e seus arquivos estáticos no mesmo domínio. A configuração externa do Cloudflare Pages não é alterada nesta entrega; integrações Git existentes podem executar deploy automático.
 
-O sistema adota uma arquitetura em camadas baseada no padrão REST/MVC:
+## API de contratação
 
-1. **Camada de Apresentação (Front-end):** Interface em HTML/CSS/JS que faz requisições assíncronas (`fetch` API) enviando dados em formato JSON.
-2. **Camada de Controle (Controller):** Endpoints REST em Spring Boot (`RecomendacaoController`) que recebem as requisições HTTP e validam os DTOs.
-3. **Camada de Negócio (Service):** Regras de negócio da recomendação (`RecomendacaoService`) que calculam as escolhas de veículos.
-4. **Camada de Persistência (Repository & Entity):** Mapeamento objeto-relacional (JPA/Hibernate) para armazenamento da entidade `Recomendacao` na tabela `TB_RECOMENDACAO`.
+- `GET /api/user/plans`: planos ativos.
+- `GET /api/user/vehicles?planId=ID`: veículos disponíveis compatíveis.
+- `POST /api/user/requests`: entrada `{planId, vehicleId, message}`; protocolo gerado pelo servidor.
+- `GET /api/user/requests`: histórico com protocolo, veículo, status e resposta.
+- `POST /api/user/requests/{id}/cancel`: cancela solicitação própria pendente.
+- `PATCH /api/admin/requests/{id}/respond`: aprova/rejeita no painel global autorizado.
 
----
+O protocolo de novas solicitações é UUID; registros anteriores podem aparecer como LEGACY-id. A seleção de unidade não é reserva física de veículo. Contratos completos e limitações estão na auditoria.
 
-## Modelagem do Banco de Dados
+## Limites e validação
 
-### Tabela: `TB_RECOMENDACAO`
+Consulte os documentos de homologação antes de afirmar que um fluxo foi testado em produção. Continuam pendentes a confirmação do titular da conta setorial e funções planejadas como trânsito real/roteamento. O quiz usa preferências qualitativas e não garante custo, autonomia ou habilitação legal de um modelo. O frontend não substitui a validação no servidor.
 
-| Coluna | Tipo de Dado | Descrição |
-| :--- | :--- | :--- |
-| `ID` | BIGINT (PK, Auto-increment) | Identificador único do registro |
-| `DISTANCIA` | VARCHAR | Faixa de distância informada |
-| `ESFORCO` | VARCHAR | Preferência de esforço físico / ajuda elétrica |
-| `FINALIDADE` | VARCHAR | Propósito de uso do veículo |
-| `HABILITACAO` | VARCHAR | Situação do usuário em relação à CNH |
-| `ORCAMENTO` | VARCHAR | Faixa de orçamento disponível |
-| `RECOMENDACAO_PRINCIPAL` | VARCHAR | Veículo principal recomendado pelo sistema |
-| `RECOMENDACAO_ALTERNATIVA` | VARCHAR | Segunda opção de veículo recomendada |
-
----
-
-## Pré-requisitos
-
-Para executar o projeto, é necessário ter instalado na máquina:
-
-* **Java JDK:** Versão 17 ou superior
-* **Apache Maven:** Versão 3.8+ (ou utilizar o wrapper `./mvnw`)
-* **Navegador Web:** Google Chrome, Mozilla Firefox, Microsoft Edge ou similar
-
----
-
-## Instalação
-
-1. Clone o repositório para o seu ambiente local:
-`git clone https://github.com/usuario/ecogiro.git`
-
-2. Acesse a pasta do projeto:
-`cd ecogiro`
-
-3. Compile o projeto e baixe as dependências do Maven:
-`mvn clean install`
-
----
-
-## Como Executar
-
-1. Inicie a aplicação Spring Boot através da sua IDE de preferência ou pelo terminal:
-`mvn spring-boot:run`
-
-2. Confirme se a aplicação subiu com sucesso na porta `8080` (mensagem no console: `Tomcat started on port(s): 8080`).
-
-3. Acesse a aplicação no navegador:
-* **Página Inicial:** `http://localhost:8080/index.html` (ou via Live Server / servidor estático)
-* **Quiz de Recomendação:** `http://localhost:8080/quiz.html`
-* **Console do Banco H2:** `http://localhost:8080/h2-console`
-
-### Configurações de Acesso ao H2:
-* **JDBC URL:** `jdbc:h2:mem:ecogirodb` (ou conforme configurado no `application.properties`)
-* **User Name:** `sa`
-* **Password:** *(deixe em branco)*
-
----
-
-## Estrutura do Projeto
-
-ecogiro/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/
-│   │   │       └── ecogiro/
-│   │   │           ├── controller/
-│   │   │           ├── dto/
-│   │   │           ├── model/
-│   │   │           ├── repository/
-│   │   │           └── service/
-│   │   └── resources/
-│   │       ├── static/
-│   │       │   ├── css/
-│   │       │   ├── img/
-│   │       │   ├── js/
-│   │       │   ├── index.html
-│   │       │   └── quiz.html
-│   │       └── application.properties
-└── pom.xml
-
----
-
-## Exemplos de Uso
-
-### Payload de Envio do Quiz (`POST /recomendacao`)
-
-{
-  "distancia": "Média — 3 a 10 km",
-  "esforco": "Pouco — gosto de ajuda elétrica",
-  "finalidade": "Lazer e passeios",
-  "habilitacao": "Não tenho e não pretendo tirar",
-  "orcamento": "Médio"
-}
-
-### Resposta do Sistema (`200 OK`)
-
-{
-  "recomendacaoPrincipal": "E-bike",
-  "recomendacaoAlternativa": "Bicicleta"
-}
-
----
-
-## API
-
-### Endpoints Disponíveis
-
-#### Criar Recomendação
-* **URL:** `/recomendacao`
-* **Método:** `POST`
-* **Consumes:** `application/json`
-* **Produces:** `application/json`
-* **Descrição:** Recebe os parâmetros preenchidos no quiz, calcula a recomendação ideal, salva a entidade no banco de dados H2 e devolve os veículos indicados.
-
----
-
-## Capturas de Tela
-
-* **Tela Principal (Landing Page):** `[ Inserir imagem da landing page aqui ]`
-* **Quiz de Recomendação:** `[ Inserir imagem da tela do quiz aqui ]`
-* **Banco de Dados H2:** `[ Inserir imagem do H2 Console com os registros gravados aqui ]`
-
----
-
-## Melhorias Futuras
-
-* Integração completa do formulário de contato/suporte com envio de e-mails ou salvamento em banco de dados.
-* Implementação de autenticação e cadastro de usuários para histórico individual de recomendações.
-* Integração com APIs externas de geolocalização para mapeamento dos pontos de retirada de veículos.
-* Mapeamento de persistência em banco de dados relacional permanente (PostgreSQL/MySQL) para ambiente de produção.
-
----
+A suíte automatizada e o JAR são verificados no GitHub Actions com H2 em memória, sem acesso ao Neon de produção.

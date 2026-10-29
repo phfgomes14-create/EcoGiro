@@ -1,0 +1,30 @@
+name: Validação EcoGiro
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Testes de navegação e proxy
+        run: node --test tests/*.test.cjs
+      - name: Testes e compilação Java
+        working-directory: EcoGiro Branch 11/EcoGiro-feature-Adicao-Documentos/ecogiro
+        run: bash gradlew test bootJar --no-daemon
+        env:
+          SPRING_DATASOURCE_URL: jdbc:h2:mem:ci;DB_CLOSE_DELAY=-1
+          SPRING_DATASOURCE_USERNAME: sa
+          SPRING_DATASOURCE_PASSWORD: ''
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: resultados-java
+          path: EcoGiro Branch 11/EcoGiro-feature-Adicao-Documentos/ecogiro/build/reports/tests/test

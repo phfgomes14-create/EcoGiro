@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meus setores | EcoGiro</title>
+<link rel="stylesheet" href="assets/css/dashboard.css">
+<style>
+.sector-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.sector-card{padding:1.2rem;border:1px solid #d9e7dc;border-radius:12px;background:white}
+.sector-card h2{margin:.4rem 0}
+.notice{border-left:4px solid #16863d;padding:1rem;background:#eef9f0;margin-bottom:1.5rem}
+</style>
+<script src="assets/js/admin-setorial.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+<header class="app-header">
+<a class="brand" href="index.html"><img src="assets/img/icone.svg" alt=""><span>Eco<span>Giro</span></span></a>
+<nav class="app-nav"><a class="active" href="admin-setorial.html">Meus setores</a><a href="mapa-admin.html">Mapa</a><form action="/logout" method="post"><button class="nav-button" type="submit">Sair</button></form><a href="estoque.html">Estoque por localização</a></nav>
+<a href="/operacao.html" style="margin:1rem;display:inline-block">Operação territorial</a></header>
+<main class="app-main">
+<section class="hero-panel"><span class="eyebrow">// Operação setorial</span><h1>Painel do administrador setorial</h1><p>Consulte os setores atribuídos à sua conta.</p></section>
+<div class="notice">Use Operação territorial para controlar capacidade, bloqueios e veículos das lojas dos seus setores. Setores sem atribuição precisam da aprovação do administrador geral.</div>
+<h2>Meus setores</h2><p id="sector-status" role="status">Carregando setores...</p><div id="sectors" class="sector-grid"></div>
+</main></div>
+</body></html>
