@@ -213,7 +213,8 @@ ecogiro/
                             <img width="1879" height="937" alt="Captura de tela 2026-10-29 104435" src="https://github.com/user-attachments/assets/8094f959-1be5-452f-b14f-1859b9a16ffa" />
 
   
-* **Banco de Dados H2:** `[ Inserir imagem do H2 Console com os registros gravados aqui ]`
+* **Banco de Dados Neon:** <img width="1600" height="899" alt="WhatsApp Image 2026-11-19 at 08 55 21" src="https://github.com/user-attachments/assets/baf9e137-8789-414d-92ab-9ac70a8eb0d2" />
+
 
 ---
 
@@ -223,5 +224,6 @@ ecogiro/
 * Implementação de autenticação e cadastro de usuários para histórico individual de recomendações.
 * Integração com APIs externas de geolocalização para mapeamento dos pontos de retirada de veículos.
 * Mapeamento de persistência em banco de dados relacional permanente (PostgreSQL/MySQL) para ambiente de produção.
+* Melhoria na interface e usabilidade do usuário.
 
 ---
